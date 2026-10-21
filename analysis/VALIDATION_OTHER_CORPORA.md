@@ -2,7 +2,7 @@
 
 Purpose: test which features of the fingerprint in `STYLOMETRIC_FINDINGS.md` section 7 hold across register, using public writing attributed to the same author that the `posts/` archive does not contain. This is a within-author consistency check; the comparison with other writers is in `CONTROL_CORPUS.md`.
 
-Revision 2 changes (details in `REVISION_NOTES.md`): all features now come from `measures.profile()`, the function used for the forum tables; the white paper was re-cleaned (references, figure labels, captions and formula fragments removed; numbered steps kept as a list); text published in more than one corpus is reported with and without the shared passages; the code-only `post_475` no longer counts as a document; and the "will"/"would" reading is withdrawn.
+Revision 3 counts contraction choices case-insensitively and hedges without overlap, and cleans the e-mails with the shared rules in `cleaning.py` (the cleaned e-mail text is unchanged). Revision 2 changes (details in `REVISION_NOTES.md`): all features now come from `measures.profile()`, the function used for the forum tables; the white paper was re-cleaned (references, figure labels, captions and formula fragments removed; numbered steps kept as a list); text published in more than one corpus is reported with and without the shared passages; the code-only `post_475` no longer counts as a document; and the "will"/"would" reading is withdrawn.
 
 ## Corpora
 
@@ -63,7 +63,7 @@ All numbers are in `data/agg/validation_other_corpora.csv` (both variants, plus 
 | Bullet lists "- ", never "* " | none | 49 / 0 (35 / 0) | 137 / 0 (120 / 0) |
 | Numbered lists `1)`, never `1.` | 6 / 0 (the network steps) | 0 / 0 | 39 / 0 |
 | Verdict openers "Right,"/"Yes,"/"No," at line start | 0 (not a reply) | 7 | 37 |
-| Hedges vs boosters | 1 vs 2 ("obviously", "of course") | 19 vs 1 | 278 vs 26 |
+| Hedges vs boosters (counted without overlap) | 1 vs 2 ("obviously", "of course") | 19 vs 1 | 261 vs 26 |
 | Logical quotation (stop outside quotes, except full sentences) | 1 outside, 0 inside | 3 outside, 2 inside (both full-sentence quotations) | 39 outside, 7 inside |
 | Spelling: non-US / US-only / `-ize` | 1 (`favour`) / 0 / 2 (`characterized`, `realizes`) | 9 (`neighbour(s)`, `optimisation`, `synchronisation`) / 0 / 6 (`decentralized`, `optimize`, `specialized`) | 27 / 4 / 26 |
 
@@ -77,7 +77,7 @@ Hedges against boosters: in the paper, with almost no stance marking, the direct
 |---|---|---|---|
 | Mean sentence length (words) | 22.7 | 15.1 | 12.6 |
 | Contractions per 1k | 7.0 | 20.9 | 30.5 |
-| Contracted share where a choice existed | 0.26 | 0.71 | 0.86 |
+| Contracted share where a choice existed (case-insensitive) | 0.24 | 0.75 | 0.86 |
 | Passive constructions per sentence | 0.48 | 0.18 | 0.12 |
 | "the" per 1k | 78 | 62 | 53 |
 | "I" group per 1k | 0 | 7.4 | 15.9 |

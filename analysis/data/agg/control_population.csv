@@ -1,25 +1,25 @@
-habit,satoshi_value,satoshi_like_if,control_pooled_value,writers_with_opportunity,writers_satoshi_like,share_satoshi_like,satoshi_percentile_among_writers,control_min,control_q1,control_median,control_q3,control_max
-double_space_share,0.988,>= 0.90,0.299,120,32,0.267,85.8,0.0,0.0,0.0,0.926,1.0
-semicolon_per1k,0.06,<= 0.2,0.67,136,84,0.618,59.6,0.0,0.0,0.0,0.8,7.34
-em_en_dash_or_double_hyphen_per1k,0.21,<= 0.3,0.5,136,107,0.787,77.2,0.0,0.0,0.0,0.14,7.34
-exclaim_per1k,0.92,<= 1.5,2.27,136,76,0.559,46.0,0.0,0.0,1.1600000000000001,2.77,44.55
-contracted_share,0.857,>= 0.80,0.59,135,25,0.185,89.3,0.0,0.406,0.589,0.75,1.0
-if_per1k,11.34,>= 9,7.32,136,34,0.25,92.6,0.0,5.13,7.15,9.02,19.75
-if_you_openers_per1k,2.13,>= 1.5,0.67,136,14,0.103,95.6,0.0,0.0,0.365,0.94,5.66
-it_would_be_per1k,0.96,>= 0.6,0.5,136,39,0.287,80.9,0.0,0.0,0.0,0.74,3.55
-hedge_share_of_stance,0.914,>= 0.85,0.805,108,50,0.463,76.9,0.167,0.75,0.833,0.909,1.0
-verdict_openers_per1k,0.77,>= 0.5,0.5,136,53,0.39,75.7,0.0,0.0,0.0,0.76,5.51
-block_chain_two_word_share,1.0,= 1.0,0.817,56,39,0.696,65.2,0.0,0.5,1.0,1.0,1.0
-double_spend_hyphen_share,1.0,>= 0.9,0.387,23,7,0.304,84.8,0.0,0.0,0.0,1.0,1.0
-proof_of_work_hyphen_share,0.923,>= 0.9,0.532,28,13,0.464,53.6,0.0,0.0,0.8445,1.0,1.0
-e_mail_hyphen_share,0.889,>= 0.8,0.208,40,6,0.15,85.0,0.0,0.0,0.0,0.0,1.0
-OK_caps_share,1.0,= 1.0,0.75,29,19,0.655,67.2,0.0,0.0,1.0,1.0,1.0
-etc_with_period_share,1.0,= 1.0,0.604,67,30,0.448,77.6,0.0,0.0,0.667,1.0,1.0
-towards_share,0.818,>= 0.75,0.639,16,10,0.625,37.5,0.0,0.2,1.0,1.0,1.0
-percent_sign_share,1.0,= 1.0,0.987,68,64,0.941,52.9,0.0,1.0,1.0,1.0,1.0
-bullet_dash_share,1.0,= 1.0,0.626,19,6,0.316,84.2,0.0,0.0,0.5,1.0,1.0
-numbered_paren_share,1.0,= 1.0,0.51,50,26,0.52,74.0,0.0,0.0,1.0,1.0,1.0
-logical_quotation_share,0.848,>= 0.75,0.768,78,50,0.641,42.3,0.0,0.5,1.0,1.0,1.0
-non_us_spelling_share,0.871,>= 0.75,0.336,76,18,0.237,77.6,0.0,0.0,0.0,0.667,1.0
-mean_sentence_len,12.57,(no threshold; register-dependent),14.72,136,,,32.4,7.39,12.11,14.55,17.9,29.29
-you_per1k,20.86,(no threshold; register-dependent),14.76,136,,,80.1,0.0,7.84,12.43,19.37,41.8
+comparison,habit,kind,satoshi_value,satoshi_sample_p10,satoshi_sample_p90,satoshi_like_if,writers_with_opportunity,writers_satoshi_like,share_satoshi_like,satoshi_percentile,control_median,control_q1,control_q3
+A all text,double_space_share,rate,0.988,,,>= 0.90,120,32,0.267,85.8,0.0,0.0,0.926
+A all text,contracted_share,rate,0.864,,,>= 0.80,128,24,0.188,90.6,0.594,0.424,0.76
+A all text,if_per1k,rate,11.28,,,>= 9,136,34,0.25,92.6,7.15,5.132,9.02
+A all text,if_you_openers_per1k,rate,2.087,,,>= 1.5,136,14,0.103,95.6,0.364,0.0,0.936
+A all text,it_would_be_per1k,rate,0.97,,,>= 0.6,136,39,0.287,81.6,0.0,0.0,0.742
+A all text,verdict_openers_per1k,rate,0.759,,,>= 0.5,136,51,0.375,75.0,0.0,0.0,0.765
+A all text,hedge_share_of_stance,rate,0.909,,,>= 0.85,107,47,0.439,77.6,0.833,0.739,0.9
+A all text,semicolon_per1k,rate,0.063,,,<= 0.2,136,84,0.618,59.6,0.0,0.0,0.804
+A all text,em_en_dash_or_double_hyphen_per1k,rate,0.211,,,<= 0.3,136,107,0.787,77.2,0.0,0.0,0.142
+A all text,exclaim_per1k,rate,0.928,,,<= 1.5,136,76,0.559,46.3,1.16,0.0,2.766
+A all text,mean_sentence_len,rate,12.553,,,(register-dependent),136,,,32.4,14.55,12.111,17.901
+A all text,you_per1k,rate,20.6,,,(register-dependent),136,,,79.4,12.432,7.843,19.366
+A all text,block_chain_two_word_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,23,17,0.739,63.0,1.0,0.962,1.0
+A all text,double_spend_hyphen_share,"two-way choice, >= 3 uses",1.0,,,>= 0.9,8,3,0.375,81.2,0.367,0.0,1.0
+A all text,proof_of_work_hyphen_share,"two-way choice, >= 3 uses",0.923,,,>= 0.9,10,2,0.2,80.0,0.708,0.333,0.889
+A all text,e_mail_hyphen_share,"two-way choice, >= 3 uses",0.889,,,>= 0.8,13,2,0.154,84.6,0.0,0.0,0.0
+A all text,OK_caps_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,6,4,0.667,66.7,1.0,0.889,1.0
+A all text,etc_with_period_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,22,4,0.182,90.9,0.583,0.333,0.75
+A all text,towards_share,"two-way choice, >= 3 uses",0.818,,,>= 0.75,5,2,0.4,60.0,0.667,0.2,1.0
+A all text,percent_sign_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,28,26,0.929,53.6,1.0,1.0,1.0
+A all text,bullet_dash_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,16,5,0.312,84.4,0.467,0.0,1.0
+A all text,numbered_paren_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,46,24,0.522,73.9,1.0,0.0,1.0
+A all text,logical_quotation_share,"two-way choice, >= 3 uses",0.848,,,>= 0.75,43,27,0.628,48.8,0.905,0.6,1.0
+A all text,non_us_spelling_share,"two-way choice, >= 3 uses",0.871,,,>= 0.75,29,6,0.207,82.8,0.1,0.0,0.667

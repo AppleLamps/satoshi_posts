@@ -28,7 +28,7 @@ multi,9,9,1 13 24 85 96 125 349 488 498,mufti
 bitcoinaddress,9,6,99 122 241 271 497 535,
 getnewaddress,9,7,101 106 218 223 225 241 496,
 getreceivedbyaddress,9,8,106 137 241 298 408 413 428 526,
-addnode,8,6,10 49 127 377 379 480,anode
+addnode,8,6,10 49 127 377 379 480,acnode
 appdata,8,6,16 18 131 139 140 170,
 getinfo,8,8,70 228 241 254 283 416 428 501,
 wxbase,8,7,73 79 81 83 143 218 277,base
@@ -44,7 +44,7 @@ sourcecode,7,6,61 238 278 431 483 491,
 init,7,5,73 79 218 277 437,unit
 minconf,7,3,108 241 526,minions
 laszlo,7,13,124 140 141 142 148 149 165 167 181 192,lasso
-hashmeter,7,3,131 157 167,gasometer
+hashmeter,7,3,131 157 167,tasimeter
 config,7,4,250 259 334 421,confirm
 msvc,7,5,264 279 334 337 348,move
 blkindex,7,5,370 371 492 510 512,blinded
@@ -73,7 +73,7 @@ scanhash,5,2,507 508,
 admin,4,4,1 15 20 314,admit
 freebsd,4,4,18 25 67 103,freed
 wxmac,4,2,22 345,woman
-langcode,4,1,61,lingcods
+langcode,4,1,61,lingcod
 loopback,4,3,70 99 246,roorback
 pecunix,4,1,94,petunia
 misc,4,4,104 106 348 368,miss
@@ -104,7 +104,7 @@ cert,3,3,113 117 454,cart
 datawraith,3,3,123 124 167,
 filesystem,3,3,143 299 423,
 minimizetotray,3,3,188 206 240,
-pseudocode,3,3,223 497 535,pseudopod
+pseudocode,3,3,223 497 535,pseudoscope
 rpcpw,3,3,241 245 249,
 yaml,3,1,250,yam
 inpoint,3,1,341,pinpoint
@@ -119,7 +119,7 @@ screenshots,2,2,1 396,
 autoconf,2,1,20,
 listview,2,1,20,
 wxosx,2,2,22 345,whose
-malmi,2,1,24,malmö
+malmi,2,1,24,malm
 wxmsw,2,2,25 357,
 doubleclick,2,2,33 445,
 retarget,2,2,42 66,target
@@ -177,7 +177,7 @@ vess,2,1,351,less
 nelisky,2,2,351 420,nevsky
 thash,2,2,358 429,trash
 sigsegv,2,2,360 361,
-objs,2,1,371,ob's
+objs,2,1,371,obis
 cacd,2,2,373 375,card
 amdfamk,2,1,383,
 amdfam,2,2,384 428,madam
@@ -309,7 +309,7 @@ otoh,1,1,259,ooh
 workaround,1,1,264,
 publickey,1,1,271,publicity
 argc,1,1,277,arc
-argv,1,1,277,arg
+argv,1,1,277,argo
 cmyapp,1,1,277,
 dgui,1,1,277,guy
 masm,1,1,279,mass
@@ -323,7 +323,7 @@ bdynamic,1,1,299,dynamic
 gthread,1,1,299,thread
 interprocess,1,1,300,
 simd,1,1,301,sid
-versioning,1,1,307,pensioning
+versioning,1,1,307,visioning
 caddress,1,1,307,address
 creighto,1,1,311,creighton
 micropayment,1,1,316,
@@ -409,7 +409,7 @@ phash,1,1,508,phase
 nhashesdone,1,1,508,
 bytereverse,1,1,508,
 bandwidthwise,1,1,510,
-kbps,1,1,512,kb's
+kbps,1,1,512,kips
 divy,1,1,516,dive
 mtgox,1,1,516,magog
 checkblocks,1,1,517,checkbooks

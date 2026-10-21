@@ -80,3 +80,67 @@ Boosters remain rare (26 against 281 hedges).
 
 * `scripts/__pycache__` removed from version control; `analysis/.gitignore` added.
 * Evidence regenerated: 357 rows, all verified at their file, line and column.
+
+---
+
+# Revision 3
+
+Responds to the review of revision 2 (commit `180ac8c`).
+
+## 1. One cleaner for both populations
+
+**Found.** `07_control_corpus.py` removed code-looking lines without rule R12b, which keeps an explanation after ` -- `. Passing `post_241` through it gave 190 words against 326 in the archive extraction, and dropped the password-delay reasoning.
+
+**Changed.**
+* New module `scripts/cleaning.py` holds `CODE_LINE_RE`, the R12b gloss rule and the forum-post cleaner. `01_extract.py`, `05_validate_other_corpora.py` and `07_control_corpus.py` all call it.
+* The archive extraction is byte-for-byte unchanged, and so is the cleaned e-mail text.
+* Satoshi's posts cleaned from the thread pages now match the archive word count in 532 of 535 posts (`data/control/cleaning_parity.csv`), and `post_241` gives 326 words both ways.
+* The control side of the comparison now takes Satoshi's text from the same pages through the same cleaner. It excludes `post_10` and `post_351`, whose other-member text only manual archive rules remove.
+
+## 2. Contraction choice is case-insensitive
+
+"It's" and "It is" now count like "it's" and "it is".
+
+| Measure | Old | New |
+|---|---|---|
+| BitcoinTalk contracted share | 0.857 | 0.864 |
+| E-mails (pooled) | 0.71 | 0.75 |
+| White paper | 0.26 | 0.24 |
+| Control writers at ≥ 0.80 (comparison A) | 25 of 135 | 24 of 128 |
+
+## 3. Hedges and boosters counted without overlap
+
+The lexicon is matched as one alternation, longest item first, so "I'm not sure" counts once. "not sure" now counts only the remaining uses, such as "I am not sure" (2).
+
+| Measure | Old | New |
+|---|---|---|
+| Hedges, core corpus | 281 | 264 |
+| Hedges, BitcoinTalk | 278 | 261 |
+| Hedge share | 92% | 91% |
+
+## 4. Role matching and equal samples
+
+The control analysis is now split in two:
+* `07_control_corpus.py` builds per-post additive counts with role labels taken from thread structure (question, answer, statement).
+* `08_control_analysis.py` runs four comparisons: all text; all text in equal 1,000-word samples; declarative posts; and answers to questions in 500-word samples.
+
+Two-way choices need at least 3 uses per writer, where revision 2 needed 1. Main result: "If you…" openers reach Satoshi's rate in 14 of 136 writers (10%) on all text, but in 16 of 44 (36%) when only answers are compared, so much of that habit is his answering role. The contraction share stays at 15–19% of eligible writers in every comparison. `CONTROL_CORPUS.md`, the summary table and the fingerprint in the report now give every share as writers meeting / writers eligible.
+
+## 5. Offline reproduction
+
+Committed in `data/control/`:
+* anonymized per-post counts with opportunity counts, roles and the SHA-256 of each cleaned post;
+* the URL and SHA-256 of every fetched page;
+* per-writer feature values and opportunity counts (`data/agg/control_writer_features.csv`).
+
+`08_control_analysis.py` runs from these files alone.
+
+## 6. Frozen protocol
+
+`PROTOCOL_NEXT_TEST.md` and `data/protocol/frozen_spec.json` fix the following before any new material is collected:
+* the definition files, by SHA-256;
+* the primary features, thresholds, minimum material, sample sizes, seed and scoring rule;
+* the evaluation, by AUC within register on unseen writers and threads against held-out Satoshi text, with a success criterion;
+* the threads and writers already used.
+
+The failure-anticipation pattern stays labelled as a qualitative finding, with the design a comparable test would need.

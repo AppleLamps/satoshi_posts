@@ -1,0 +1,97 @@
+comparison,habit,kind,satoshi_value,satoshi_sample_p10,satoshi_sample_p90,satoshi_like_if,writers_with_opportunity,writers_satoshi_like,share_satoshi_like,satoshi_percentile,control_median,control_q1,control_q3
+A all text,double_space_share,rate,0.988,,,>= 0.90,120,32,0.267,85.8,0.0,0.0,0.926
+A all text,contracted_share,rate,0.864,,,>= 0.80,128,24,0.188,90.6,0.594,0.424,0.76
+A all text,if_per1k,rate,11.28,,,>= 9,136,34,0.25,92.6,7.15,5.132,9.02
+A all text,if_you_openers_per1k,rate,2.087,,,>= 1.5,136,14,0.103,95.6,0.364,0.0,0.936
+A all text,it_would_be_per1k,rate,0.97,,,>= 0.6,136,39,0.287,81.6,0.0,0.0,0.742
+A all text,verdict_openers_per1k,rate,0.759,,,>= 0.5,136,51,0.375,75.0,0.0,0.0,0.765
+A all text,hedge_share_of_stance,rate,0.909,,,>= 0.85,107,47,0.439,77.6,0.833,0.739,0.9
+A all text,semicolon_per1k,rate,0.063,,,<= 0.2,136,84,0.618,59.6,0.0,0.0,0.804
+A all text,em_en_dash_or_double_hyphen_per1k,rate,0.211,,,<= 0.3,136,107,0.787,77.2,0.0,0.0,0.142
+A all text,exclaim_per1k,rate,0.928,,,<= 1.5,136,76,0.559,46.3,1.16,0.0,2.766
+A all text,mean_sentence_len,rate,12.553,,,(register-dependent),136,,,32.4,14.55,12.111,17.901
+A all text,you_per1k,rate,20.6,,,(register-dependent),136,,,79.4,12.432,7.843,19.366
+A all text,block_chain_two_word_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,23,17,0.739,63.0,1.0,0.962,1.0
+A all text,double_spend_hyphen_share,"two-way choice, >= 3 uses",1.0,,,>= 0.9,8,3,0.375,81.2,0.367,0.0,1.0
+A all text,proof_of_work_hyphen_share,"two-way choice, >= 3 uses",0.923,,,>= 0.9,10,2,0.2,80.0,0.708,0.333,0.889
+A all text,e_mail_hyphen_share,"two-way choice, >= 3 uses",0.889,,,>= 0.8,13,2,0.154,84.6,0.0,0.0,0.0
+A all text,OK_caps_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,6,4,0.667,66.7,1.0,0.889,1.0
+A all text,etc_with_period_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,22,4,0.182,90.9,0.583,0.333,0.75
+A all text,towards_share,"two-way choice, >= 3 uses",0.818,,,>= 0.75,5,2,0.4,60.0,0.667,0.2,1.0
+A all text,percent_sign_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,28,26,0.929,53.6,1.0,1.0,1.0
+A all text,bullet_dash_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,16,5,0.312,84.4,0.467,0.0,1.0
+A all text,numbered_paren_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,46,24,0.522,73.9,1.0,0.0,1.0
+A all text,logical_quotation_share,"two-way choice, >= 3 uses",0.848,,,>= 0.75,43,27,0.628,48.8,0.905,0.6,1.0
+A all text,non_us_spelling_share,"two-way choice, >= 3 uses",0.871,,,>= 0.75,29,6,0.207,82.8,0.1,0.0,0.667
+"B all text, equal samples",double_space_share,rate,1.0,0.97,1.0,>= 0.90,76,23,0.303,91.4,0.0,0.0,0.95
+"B all text, equal samples",contracted_share,rate,0.868,0.784,0.944,>= 0.80,86,13,0.151,94.2,0.563,0.389,0.737
+"B all text, equal samples",if_per1k,rate,11.029,7.319,16.061,>= 9,87,16,0.184,92.0,6.897,5.566,8.715
+"B all text, equal samples",if_you_openers_per1k,rate,1.823,0.0,3.81,>= 1.5,87,7,0.08,94.3,0.0,0.0,0.944
+"B all text, equal samples",it_would_be_per1k,rate,0.929,0.0,2.828,>= 0.6,87,28,0.322,85.1,0.0,0.0,0.791
+"B all text, equal samples",verdict_openers_per1k,rate,0.825,0.0,1.914,>= 0.5,87,34,0.391,65.5,0.0,0.0,0.906
+"B all text, equal samples",hedge_share_of_stance,rate,1.0,0.75,1.0,>= 0.85,79,36,0.456,91.8,0.833,0.727,0.909
+"B all text, equal samples",semicolon_per1k,rate,0.0,0.0,0.0,<= 0.2,87,57,0.655,32.8,0.0,0.0,0.934
+"B all text, equal samples",em_en_dash_or_double_hyphen_per1k,rate,0.0,0.0,0.0,<= 0.3,87,68,0.782,39.1,0.0,0.0,0.0
+"B all text, equal samples",exclaim_per1k,rate,0.923,0.0,2.604,<= 1.5,87,45,0.517,39.1,0.979,0.0,2.593
+"B all text, equal samples",mean_sentence_len,rate,12.723,10.824,14.565,(register-dependent),87,,,29.9,14.649,12.358,18.339
+"B all text, equal samples",you_per1k,rate,19.831,11.916,31.197,(register-dependent),87,,,80.5,12.766,8.257,16.932
+"B all text, equal samples",block_chain_two_word_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,22,16,0.727,63.6,1.0,0.962,1.0
+"B all text, equal samples",double_spend_hyphen_share,"two-way choice, >= 3 uses",1.0,,,>= 0.9,7,3,0.429,78.6,0.4,0.0,1.0
+"B all text, equal samples",proof_of_work_hyphen_share,"two-way choice, >= 3 uses",0.923,,,>= 0.9,9,2,0.222,77.8,0.667,0.333,0.889
+"B all text, equal samples",e_mail_hyphen_share,"two-way choice, >= 3 uses",0.889,,,>= 0.8,12,2,0.167,83.3,0.0,0.0,0.6
+"B all text, equal samples",OK_caps_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,6,4,0.667,66.7,1.0,0.889,1.0
+"B all text, equal samples",etc_with_period_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,20,4,0.2,90.0,0.583,0.333,0.75
+"B all text, equal samples",towards_share,"two-way choice, >= 3 uses",0.818,,,>= 0.75,5,2,0.4,60.0,0.667,0.2,1.0
+"B all text, equal samples",percent_sign_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,24,22,0.917,54.2,1.0,1.0,1.0
+"B all text, equal samples",bullet_dash_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,14,5,0.357,82.1,0.633,0.0,1.0
+"B all text, equal samples",numbered_paren_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,38,19,0.5,75.0,0.917,0.0,1.0
+"B all text, equal samples",logical_quotation_share,"two-way choice, >= 3 uses",0.848,,,>= 0.75,40,24,0.6,52.5,0.8,0.6,1.0
+"B all text, equal samples",non_us_spelling_share,"two-way choice, >= 3 uses",0.871,,,>= 0.75,28,5,0.179,85.7,0.078,0.0,0.667
+"C declarative posts, equal samples",double_space_share,rate,1.0,0.968,1.0,>= 0.90,47,14,0.298,88.3,0.0,0.0,0.964
+"C declarative posts, equal samples",contracted_share,rate,0.868,0.774,0.947,>= 0.80,53,9,0.17,94.3,0.568,0.419,0.708
+"C declarative posts, equal samples",if_per1k,rate,10.769,6.47,14.911,>= 9,54,13,0.241,88.9,6.878,5.004,8.962
+"C declarative posts, equal samples",if_you_openers_per1k,rate,1.918,0.0,3.996,>= 1.5,54,5,0.093,94.4,0.0,0.0,0.964
+"C declarative posts, equal samples",it_would_be_per1k,rate,0.921,0.0,2.791,>= 0.6,54,21,0.389,77.8,0.0,0.0,0.883
+"C declarative posts, equal samples",verdict_openers_per1k,rate,0.917,0.0,1.972,>= 0.5,54,23,0.426,66.7,0.0,0.0,0.958
+"C declarative posts, equal samples",hedge_share_of_stance,rate,0.9,0.667,1.0,>= 0.85,49,18,0.367,74.5,0.812,0.714,0.9
+"C declarative posts, equal samples",semicolon_per1k,rate,0.0,0.0,0.0,<= 0.2,54,38,0.704,35.2,0.0,0.0,0.939
+"C declarative posts, equal samples",em_en_dash_or_double_hyphen_per1k,rate,0.0,0.0,0.0,<= 0.3,54,40,0.741,37.0,0.0,0.0,0.776
+"C declarative posts, equal samples",exclaim_per1k,rate,0.929,0.0,2.793,<= 1.5,54,21,0.389,33.3,1.803,0.0,3.728
+"C declarative posts, equal samples",mean_sentence_len,rate,12.61,11.022,14.472,(register-dependent),54,,,18.5,14.455,13.306,18.0
+"C declarative posts, equal samples",you_per1k,rate,20.261,11.84,28.902,(register-dependent),54,,,77.8,12.871,7.944,18.341
+"C declarative posts, equal samples",block_chain_two_word_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,15,12,0.8,60.0,1.0,1.0,1.0
+"C declarative posts, equal samples",double_spend_hyphen_share,"two-way choice, >= 3 uses",1.0,,,>= 0.9,6,2,0.333,83.3,0.167,0.0,1.0
+"C declarative posts, equal samples",proof_of_work_hyphen_share,"two-way choice, >= 3 uses",0.923,,,>= 0.9,5,1,0.2,80.0,0.5,0.0,0.75
+"C declarative posts, equal samples",e_mail_hyphen_share,"two-way choice, >= 3 uses",0.875,,,>= 0.8,4,2,0.5,50.0,0.5,0.0,1.0
+"C declarative posts, equal samples",OK_caps_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,3,2,0.667,66.7,1.0,0.0,1.0
+"C declarative posts, equal samples",etc_with_period_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,9,1,0.111,94.4,0.6,0.333,0.733
+"C declarative posts, equal samples",towards_share,"two-way choice, >= 3 uses",0.875,,,>= 0.75,2,0,0.0,100.0,0.458,0.25,0.667
+"C declarative posts, equal samples",percent_sign_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,16,14,0.875,56.2,1.0,1.0,1.0
+"C declarative posts, equal samples",bullet_dash_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,8,4,0.5,75.0,0.8,0.0,1.0
+"C declarative posts, equal samples",numbered_paren_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,19,7,0.368,81.6,0.0,0.0,1.0
+"C declarative posts, equal samples",logical_quotation_share,"two-way choice, >= 3 uses",0.812,,,>= 0.75,22,11,0.5,54.5,0.757,0.667,1.0
+"C declarative posts, equal samples",non_us_spelling_share,"two-way choice, >= 3 uses",0.842,,,>= 0.75,12,2,0.167,83.3,0.0,0.0,0.333
+"D answers to questions, equal samples",double_space_share,rate,1.0,0.971,1.0,>= 0.90,35,9,0.257,88.6,0.0,0.0,0.917
+"D answers to questions, equal samples",contracted_share,rate,0.857,0.7,0.944,>= 0.80,38,6,0.158,94.7,0.58,0.462,0.714
+"D answers to questions, equal samples",if_per1k,rate,12.55,5.747,18.519,>= 9,44,15,0.341,93.2,7.668,4.717,10.417
+"D answers to questions, equal samples",if_you_openers_per1k,rate,1.969,0.0,5.505,>= 1.5,44,16,0.364,93.2,0.0,0.0,1.773
+"D answers to questions, equal samples",it_would_be_per1k,rate,0.0,0.0,3.367,>= 0.6,44,9,0.205,39.8,0.0,0.0,0.0
+"D answers to questions, equal samples",verdict_openers_per1k,rate,1.833,0.0,4.872,>= 0.5,44,13,0.295,86.4,0.0,0.0,1.35
+"D answers to questions, equal samples",hedge_share_of_stance,rate,,,,>= 0.85,19,8,0.421,,0.833,0.726,0.9
+"D answers to questions, equal samples",semicolon_per1k,rate,0.0,0.0,0.0,<= 0.2,44,34,0.773,38.6,0.0,0.0,0.0
+"D answers to questions, equal samples",em_en_dash_or_double_hyphen_per1k,rate,0.0,0.0,0.0,<= 0.3,44,39,0.886,44.3,0.0,0.0,0.0
+"D answers to questions, equal samples",exclaim_per1k,rate,0.0,0.0,1.773,<= 1.5,44,22,0.5,23.9,1.462,0.0,1.972
+"D answers to questions, equal samples",mean_sentence_len,rate,14.137,11.733,16.29,(register-dependent),44,,,31.8,15.494,13.756,19.138
+"D answers to questions, equal samples",you_per1k,rate,20.774,9.901,32.609,(register-dependent),44,,,72.7,13.051,7.843,23.009
+"D answers to questions, equal samples",block_chain_two_word_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,8,6,0.75,62.5,1.0,1.0,1.0
+"D answers to questions, equal samples",double_spend_hyphen_share,"two-way choice, >= 3 uses",,,,>= 0.9,0,0,,,,,
+"D answers to questions, equal samples",proof_of_work_hyphen_share,"two-way choice, >= 3 uses",0.857,,,>= 0.9,0,0,,,,,
+"D answers to questions, equal samples",e_mail_hyphen_share,"two-way choice, >= 3 uses",0.75,,,>= 0.8,2,2,1.0,0.0,1.0,1.0,1.0
+"D answers to questions, equal samples",OK_caps_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,1,1,1.0,50.0,1.0,1.0,1.0
+"D answers to questions, equal samples",etc_with_period_share,"two-way choice, >= 3 uses",,,,= 1.0,4,2,0.5,,0.917,0.833,1.0
+"D answers to questions, equal samples",towards_share,"two-way choice, >= 3 uses",,,,>= 0.75,1,0,0.0,,0.333,0.333,0.333
+"D answers to questions, equal samples",percent_sign_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,7,7,1.0,50.0,1.0,1.0,1.0
+"D answers to questions, equal samples",bullet_dash_share,"two-way choice, >= 3 uses",,,,= 1.0,2,1,0.5,,0.5,0.0,1.0
+"D answers to questions, equal samples",numbered_paren_share,"two-way choice, >= 3 uses",1.0,,,= 1.0,10,4,0.4,80.0,0.0,0.0,1.0
+"D answers to questions, equal samples",logical_quotation_share,"two-way choice, >= 3 uses",0.769,,,>= 0.75,10,6,0.6,40.0,0.858,0.667,1.0
+"D answers to questions, equal samples",non_us_spelling_share,"two-way choice, >= 3 uses",1.0,,,>= 0.75,6,0,0.0,100.0,0.0,0.0,0.0

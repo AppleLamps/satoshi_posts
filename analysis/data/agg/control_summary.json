@@ -1,11 +1,51 @@
 {
+ "seed": 20101212,
+ "samples_per_writer": 25,
+ "min_opportunities": 3,
+ "comparisons": {
+  "A all text": {
+   "min_words": 500,
+   "sample_words": null,
+   "eligible_control_writers": 136,
+   "satoshi_posts": 532,
+   "satoshi_words": 47427,
+   "control_posts": 4860,
+   "control_words": 378420
+  },
+  "B all text, equal samples": {
+   "min_words": 1000,
+   "sample_words": 1000,
+   "eligible_control_writers": 87,
+   "satoshi_posts": 532,
+   "satoshi_words": 47427,
+   "control_posts": 4323,
+   "control_words": 344160
+  },
+  "C declarative posts, equal samples": {
+   "min_words": 1000,
+   "sample_words": 1000,
+   "eligible_control_writers": 54,
+   "satoshi_posts": 401,
+   "satoshi_words": 33436,
+   "control_posts": 2644,
+   "control_words": 180010
+  },
+  "D answers to questions, equal samples": {
+   "min_words": 500,
+   "sample_words": 500,
+   "eligible_control_writers": 44,
+   "satoshi_posts": 137,
+   "satoshi_words": 12576,
+   "control_posts": 962,
+   "control_words": 69341
+  }
+ },
  "control_posts": 5736,
  "control_writers": 442,
  "control_words": 423409,
- "eligible_writers": 136,
- "min_words": 500,
- "satoshi_words": 47898,
- "combined_tests": {
+ "satoshi_posts": 532,
+ "satoshi_words": 47427,
+ "combined_tests_A": {
   "punctuation_and_spacing": {
    "habits": [
     "double_space_share",
@@ -14,7 +54,7 @@
     "exclaim_per1k",
     "contracted_share"
    ],
-   "writers_measurable": 120,
+   "writers_measurable": 116,
    "writers_matching_all": 2
   },
   "most_distinctive_frequent": {
@@ -24,9 +64,8 @@
     "if_per1k",
     "if_you_openers_per1k"
    ],
-   "writers_measurable": 120,
+   "writers_measurable": 116,
    "writers_matching_all": 0
   }
- },
- "satoshi_last_edit_stamps": 105
+ }
 }

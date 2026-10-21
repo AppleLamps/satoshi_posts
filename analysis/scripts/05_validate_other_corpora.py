@@ -10,7 +10,8 @@ Cleaning rules for emails (same spirit as 01_extract.py):
   * the signature line 'Satoshi Nakamoto' and everything after a list footer
     rule ('-----' line, 'The Cryptography Mailing List', 'Unsubscribe', 'This
     SF.net email', '_____') are removed
-  * code-looking lines (same regex as 01_extract.py) are removed
+  * code-looking lines are removed and explanations after ' -- ' kept
+    (cleaning.py, rules R12/R12b, shared with 01_extract.py)
 Cleaning rules for the white paper (pdftotext -raw, processed line by line):
   W1 everything from the line 'References' onward is dropped
   W2 title block (title, author, e-mail, URL), section headings ('4. Proof-of-Work')
@@ -54,8 +55,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import textutil as T
 
-CODE_LINE_RE = None
-exec(open(os.path.join(HERE, "01_extract.py")).read().split("def apply_overrides")[0].split("CODE_LINE_RE = ")[1].split("\n")[0].join(["CODE_LINE_RE = ", ""]))  # reuse the exact regex
+from cleaning import CODE_LINE_RE, GLOSS_RE   # same R12/R12b rules as 01_extract.py and 07_control_corpus.py
 
 def clean_email(html):
     s = BeautifulSoup(html, "html.parser"); m = s.find("main")
@@ -76,6 +76,9 @@ def clean_email(html):
         if st == "Satoshi Nakamoto" or st == "Satoshi":
             continue
         if CODE_LINE_RE.match(line) and not re.match(r"^#\d", st):
+            gm = GLOSS_RE.search(line)                       # R12b: keep an explanation after ' -- '
+            if gm and len(re.findall(r"[A-Za-z]+", gm.group(1))) >= 5:
+                out.append(gm.group(1).rstrip())
             continue
         out.append(line.rstrip())
     body = "\n".join(out)

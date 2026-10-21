@@ -17,8 +17,10 @@ Analyzed commit: `b442311` ("remove ipynb text file"), 543 files `posts/post_1.t
 | `data/extraction_log.csv` | Per-file alignment status, flags and coverage |
 | `data/sni_posts.jsonl` | Structured HTML of each post fetched from the source site (used only to recover block boundaries) |
 | `PROFILE_ADDENDUM.md` | What the writing does and does not say about the writer (dialect, era indicators, subject knowledge, working pattern, reasoning style), each claim tagged measured or hypothesis with competing explanations |
-| `CONTROL_CORPUS.md` | Distinctiveness test: how common each habit was among 442 other writers in the same BitcoinTalk threads, 2009-11 to 2010-12 (`data/agg/control_population.csv`, `control_summary.json`) |
-| `REVISION_NOTES.md` | Every change made in revision 2 in response to review, with the old and new values |
+| `CONTROL_CORPUS.md` | Distinctiveness test against 442 other writers in the same BitcoinTalk threads, 2009-11 to 2010-12, on all text and on role-matched, equal-sized samples (`data/agg/control_population.csv`, `control_role_matched.csv`, `control_writer_features.csv`, `control_summary.json`) |
+| `PROTOCOL_NEXT_TEST.md` | Frozen definitions and evaluation procedure for a test on unseen writers, threads and held-out Satoshi text (`data/protocol/frozen_spec.json`) |
+| `data/control/` | Anonymized control data committed for offline reproduction: `post_counts.csv.gz` (per-post feature and opportunity counts, roles, cleaned-text SHA-256), `pages_manifest.csv` (page URLs and SHA-256), `cleaning_parity.csv` |
+| `REVISION_NOTES.md` | Every change made in revisions 2 and 3 in response to review, with the old and new values |
 | `VALIDATION_OTHER_CORPORA.md` | Cross-register validation against the white paper and the 2008–2010 mailing-list e-mails, with and without passages shared between corpora; tables in `data/agg/validation_other_corpora.csv` and `shared_passages.csv`, cleaned texts in `data/other_corpora_clean.jsonl` |
 | `data/forum_last_edit.csv` | BitcoinTalk "Last edit" stamps for 105 archived posts (from `07_control_corpus.py`); used for the edited-post sensitivity tables |
 | `data/agg/*.csv` | Corpus-wide tables, including the revision-2 tables `compare_period_canonical.csv` (period profile with and without edited posts), `edited_posts.csv`, `affect_by_period.csv` and `affect_matches.csv`, `spelling_classes.csv`, `profile_counts.csv`, `canonical_summary.json`, and the earlier word frequencies, word 2–5-grams, character 3/4-grams, sentence openers/enders, expressions, spelling variants, capitalisation, punctuation totals, pronouns/modals, period/platform/topic/length/month comparisons, anomalies, near-duplicates, repeated sentences, unknown words |
@@ -43,11 +45,17 @@ python3 04_verify_evidence.py
 python3 05_validate_other_corpora.py --cache /path/to/val_cache
 # 6. (network) fetch the BitcoinTalk threads that contain the archived posts
 python3 06_fetch_forum_threads.py --cache /path/to/bt_cache
-# 7. control-corpus comparison; also rewrites data/forum_last_edit.csv
+# 7. build the anonymized per-post counts in data/control/; also rewrites data/forum_last_edit.csv
 python3 07_control_corpus.py --cache /path/to/bt_cache
+# 8. control comparisons A-D, offline from data/control/post_counts.csv.gz
+python3 08_control_analysis.py
+# 9. record the frozen protocol (hashes of the definition files)
+python3 09_freeze_protocol.py
 ```
 
-Steps 1–4 run offline (step 2 takes a few minutes because of the spell-check and near-duplicate passes). `data/sni_posts.jsonl` and `data/forum_last_edit.csv` are committed, so steps 0, 6 and 7 are needed only to refresh them; if step 7 is re-run, re-run step 2 afterwards.
+Steps 1–4 and 8–9 run offline (step 2 takes a few minutes because of the spell-check and near-duplicate passes). `data/sni_posts.jsonl`, `data/forum_last_edit.csv` and `data/control/` are committed, so steps 0, 6 and 7 are needed only to refresh them; if step 7 is re-run, re-run steps 2 and 8 afterwards.
+
+**Shared cleaning.** `scripts/cleaning.py` holds the code-line rules (R12, R12b) and the forum-post cleaner; the archive extraction, the e-mail cleaner and the control parser all call it, so every population is cleaned the same way.
 
 **Shared definitions.** `scripts/measures.py` holds the one definition of every feature named in the reports (sentence spacing, "If you" openers, verdict openers, hedges and boosters, contractions, passives, list styles, quotation punctuation, term forms, spelling classes, topic and profile lexicons) and `measures.profile()` builds the pooled feature set used by the period, validation and control tables. A feature reported in two documents therefore comes from the same code.
 

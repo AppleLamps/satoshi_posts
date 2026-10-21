@@ -1,38 +1,51 @@
 #!/usr/bin/env python3
-"""Same-forum, same-period control corpus: how common is each fingerprint
-habit among the other people writing in the same BitcoinTalk threads in
-2009-11 .. 2010-12?
+"""Build the committed, anonymized control dataset from the cached BitcoinTalk
+thread pages (06_fetch_forum_threads.py).
 
-Input : cached thread pages from 06_fetch_forum_threads.py (--cache DIR)
-Output: data/agg/control_population.csv   one row per tested habit
-        data/agg/control_summary.json      corpus sizes and combined tests
-        data/forum_last_edit.csv           BitcoinTalk "Last edit" stamps for
-                                           the archived Satoshi posts (used by
-                                           02_features.py for the edited-post
-                                           sensitivity check)
+Input : --cache DIR with t<topic>_<offset>.html pages
+Output (all committed, so 08_control_analysis.py runs offline):
+  data/control/pages_manifest.csv   one row per page: URL, bytes, SHA-256
+  data/control/post_counts.csv.gz   one row per post 2009-11-01..2010-12-31:
+                                    pseudonymous writer id, topic, msg id,
+                                    date, thread position, role label and
+                                    role inputs, SHA-256 of the cleaned prose,
+                                    and every additive feature count used by
+                                    the analysis (words, sentences, opportunity
+                                    counts for each two-way choice, ...)
+  data/control/cleaning_parity.csv  Satoshi's posts cleaned from the thread
+                                    pages vs the archive extraction (word
+                                    counts), to check that both populations
+                                    are cleaned the same way
+  data/forum_last_edit.csv          "Last edit" stamps for the archived posts
 
-Control text is cleaned with the same rules as the Satoshi prose: quote
-blocks, quote headers, code blocks, images and signatures are removed, <br>
-becomes a newline, U+00A0 becomes a space (R2), and code-looking lines are
-removed with the CODE_LINE_RE of 01_extract.py (R12). Posts by the account
-'satoshi' are excluded. Only posts dated 2009-11-01 .. 2010-12-31 are used.
+Cleaning: cleaning.clean_forum_post_html(), the same R12/R12b rules that
+01_extract.py applies to the archive. Satoshi's posts are taken from the same
+pages with the same cleaner (writer id "SATOSHI") so the comparison is like
+for like; his archive-based figures elsewhere in the report are unaffected.
 
-Writers are compared only at the population level. A writer enters the
-per-writer distributions with at least MIN_WORDS words; for a two-way choice
-(e.g. 'block chain' vs 'blockchain') only writers who used either form count.
-No output names or ranks individual control writers.
+Anonymization: writer ids are W0001, W0002, ... in order of each account's
+first post (by message id). Account names, quoted text and post text are not
+written. The pages are public, so anyone who re-fetches them can map ids back
+to accounts; the ids prevent casual naming, not determined re-identification.
+
+Role labels (computed from thread structure, never from the features under
+test):
+  question  : the post's own prose contains a sentence ending in "?"
+  answer    : no question sentence in its own prose, and it either quotes text
+              containing "?" or directly follows, in the thread, a post by
+              another writer whose own prose contains "?"
+  statement : neither (announcements, reports, comments, follow-ups)
 """
-import argparse, csv, glob, json, os, re, statistics, sys
+import argparse, csv, glob, gzip, hashlib, json, os, re, sys
 from collections import defaultdict
 from bs4 import BeautifulSoup
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import textutil as T
 import measures as M
+from cleaning import clean_forum_post_html
 
-src = open(os.path.join(HERE, "01_extract.py"), encoding="utf-8").read()
-CODE_LINE_RE = eval(src.split("CODE_LINE_RE = ", 1)[1].split("\n", 1)[0])
-MIN_WORDS = 500
+OUT = os.path.join(HERE, "..", "data", "control")
 MONTHS = {m: i + 1 for i, m in enumerate(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])}
 
 def parse_date(s):
@@ -42,135 +55,110 @@ def parse_date(s):
     h = int(m.group(4)) % 12 + (12 if m.group(7) == "PM" else 0)
     return f"{m.group(3)}-{MONTHS[m.group(1)]:02d}-{int(m.group(2)):02d} {h:02d}:{m.group(5)}:{m.group(6)}"
 
-def clean_post(div):
-    for sel in ["div.quoteheader", "div.quote", "div.codeheader", "div.code", "img", "div.signature"]:
-        for x in div.select(sel):
-            x.decompose()
-    for br in div.find_all("br"):
-        br.replace_with("\n")
-    text = div.get_text().replace(" ", " ")
-    lines = [l for l in text.split("\n") if not CODE_LINE_RE.match(l)]
-    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
+COUNT_KEYS = ["words", "sentences", "double_space", "single_space", "semicolon", "exclaim", "em_en_dash", "double_hyphen",
+              "if_you_openers", "if_you_openers_bare", "verdict_openers", "it_would_be", "hedges", "boosters",
+              "quote_punct_outside", "quote_punct_inside", "list_num_paren", "list_num_dot", "bullet_dash", "bullet_star",
+              "percent_attached", "percent_word", "spelling_non_us", "spelling_us_only", "spelling_ize", "gotten"]
 
-def parse_pages(cache):
-    posts = {}
-    for f in sorted(glob.glob(os.path.join(cache, "t*_*.html"))):
-        s = BeautifulSoup(open(f, encoding="latin-1").read(), "html.parser")
+def counts(text):
+    """Additive counts for one post. Every rate or share in the analysis is
+    a ratio of sums of these columns, so samples of whole posts can be pooled."""
+    if not T.words(text):
+        return None
+    p = M.profile([text])
+    toks = T.words(text)
+    c = {k: p[k] for k in COUNT_KEYS}
+    allc, cc, ff = M.contractions(text)
+    c.update(contractions=allc, contracted_choice=cc, full_choice=ff)
+    c["if"] = sum(1 for t in toks if t == "if")
+    c["you_group"] = sum(1 for t in toks if t in ("you", "your", "you're", "you've", "you'll", "you'd"))
+    c["i_group"] = sum(1 for t in toks if t in ("i", "me", "my", "i'm", "i've", "i'll", "i'd"))
+    c["question_marks"] = T.mask_urls(text).count("?")
+    c["question_sentences"] = sum(1 for s in T.sentences(text) if s.rstrip().endswith("?"))
+    for k in M.TERM_FORMS:
+        c["term_" + k] = p["term_" + k]
+    return c
+
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument("--cache", required=True); a = ap.parse_args()
+    os.makedirs(OUT, exist_ok=True)
+    pages, posts = [], {}
+    for f in sorted(glob.glob(os.path.join(a.cache, "t*_*.html")), key=lambda x: [int(n) for n in re.findall(r"\d+", os.path.basename(x))]):
+        raw = open(f, "rb").read()
+        topic, offset = [int(n) for n in re.findall(r"\d+", os.path.basename(f))]
+        pages.append(dict(topic=topic, offset=offset, url=f"https://bitcointalk.org/index.php?topic={topic}.{offset}", bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest()))
+        s = BeautifulSoup(raw.decode("latin-1"), "html.parser")
         for td in s.select("td.td_headerandpost"):
             subj = td.select_one("div.subject")
             mid = re.search(r"subject_(\d+)", subj.get("id", "")) if subj else None
             body = td.select_one("div.post")
-            if not mid or body is None:
+            if not mid or body is None or int(mid.group(1)) in posts:
                 continue
             row = td.find_parent("tr")
             pi = row.select_one("td.poster_info") if row else None
             author = pi.find("b").get_text(strip=True) if pi and pi.find("b") else None
-            date = parse_date(td.select_one("div.smalltext").get_text(" ", strip=True)) if td.select_one("div.smalltext") else None
+            sm = td.select_one("div.smalltext")
+            date = parse_date(sm.get_text(" ", strip=True)) if sm else None
             ed = td.select_one("span.edited")
             last_edit = parse_date(ed.get("title", "")) if ed and "Last edit" in ed.get("title", "") else None
             edited_by = re.search(r" by (.+)$", ed.get("title", "")).group(1) if ed and " by " in ed.get("title", "") else None
-            posts[int(mid.group(1))] = dict(msg=int(mid.group(1)), author=author, date=date, last_edit=last_edit, edited_by=edited_by, text=clean_post(body))
-    return posts
+            quotes_q = any("?" in q.get_text() for q in body.select("div.quote"))
+            text = clean_forum_post_html(body)
+            posts[int(mid.group(1))] = dict(msg=int(mid.group(1)), topic=topic, author=author, date=date, last_edit=last_edit,
+                                           edited_by=edited_by, quotes_question=quotes_q, text=text)
+    with open(os.path.join(OUT, "pages_manifest.csv"), "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(pages[0].keys())); w.writeheader(); w.writerows(pages)
 
-def pct_rank(value, values):
-    if value is None or not values:
-        return None
-    return round(100 * sum(1 for v in values if v < value) / len(values) + 50 * sum(1 for v in values if v == value) / len(values), 1)
-
-def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--cache", required=True); a = ap.parse_args()
-    posts = parse_pages(a.cache)
-    # ------------------------------------------------ last-edit stamps of the archived Satoshi posts
+    # ---------------------------------------------- archive mapping, last-edit stamps, cleaning parity
     recs = {json.loads(l)["post_id"]: json.loads(l) for l in open(os.path.join(HERE, "..", "data", "posts_clean.jsonl"), encoding="utf-8")}
-    edit_rows = []
+    edit_rows, parity = [], []
     for pid in sorted(recs):
         m = re.search(r"msg(\d+)", recs[pid].get("original_url") or "")
-        if m and int(m.group(1)) in posts:
-            p = posts[int(m.group(1))]
-            if p["last_edit"]:
-                edit_rows.append((pid, recs[pid]["timestamp"], p["date"], p["last_edit"], p["edited_by"]))
+        if not m or int(m.group(1)) not in posts:
+            continue
+        p = posts[int(m.group(1))]
+        if p["last_edit"]:
+            edit_rows.append((pid, recs[pid]["timestamp"], p["date"], p["last_edit"], p["edited_by"]))
+        r = recs[pid]
+        if r["platform"] == "Bitcointalk" and r["usable_for_prose_stats"] and "repost_of_other_members" not in r["flags"]:
+            own = "\n".join(s_["text"] for s_ in r["segments"] if s_["type"] == "own")
+            parity.append((pid, len(T.words(own)), len(T.words(p["text"])), len(T.words(own)) == len(T.words(p["text"])), ";".join(r["flags"])))
     with open(os.path.join(HERE, "..", "data", "forum_last_edit.csv"), "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh); w.writerow(["post_id", "archive_timestamp", "forum_posted", "forum_last_edit", "edited_by"]); w.writerows(edit_rows)
-    # ------------------------------------------------ control writers
-    by_writer = defaultdict(list)
-    for p in posts.values():
-        if not p["author"] or p["author"].lower() == "satoshi" or not p["date"]:
-            continue
-        if not ("2009-11-01" <= p["date"][:10] <= "2010-12-31"):
-            continue
-        if T.words(p["text"]):
-            by_writer[p["author"]].append(p["text"])
-    eligible = {w: docs for w, docs in by_writer.items() if sum(len(T.words(d)) for d in docs) >= MIN_WORDS}
-    prof = {w: M.profile(docs) for w, docs in eligible.items()}
-    pooled = M.profile([d for docs in by_writer.values() for d in docs])
-    # Satoshi reference: BitcoinTalk core prose (same platform as the control)
-    core = [r for r in recs.values() if r["usable_for_prose_stats"] and "disputed_authorship" not in r["flags"] and "repost_of_other_members" not in r["flags"] and r["platform"] == "Bitcointalk"]
-    sat = M.profile(["\n".join(s["text"] for s in r["segments"] if s["type"] == "own") for r in core])
+    with open(os.path.join(OUT, "cleaning_parity.csv"), "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh); w.writerow(["post_id", "archive_words", "thread_page_words", "equal", "archive_flags"]); w.writerows(parity)
 
-    def share(p, a_, b_):
-        x, y = p[a_], p[b_]
-        return round(x / (x + y), 3) if (x + y) else None
-    TESTS = [  # name, function(profile) -> value or None, Satoshi-like condition description, predicate
-        ("double_space_share", lambda p: p["double_space_share"] if (p["double_space"] + p["single_space"]) >= 10 else None, ">= 0.90", lambda v: v >= 0.90),
-        ("semicolon_per1k", lambda p: p["semicolon_per1k"], "<= 0.2", lambda v: v <= 0.2),
-        ("em_en_dash_or_double_hyphen_per1k", lambda p: round(1000 * (p["em_en_dash"] + p["double_hyphen"]) / p["words"], 2), "<= 0.3", lambda v: v <= 0.3),
-        ("exclaim_per1k", lambda p: p["exclaim_per1k"], "<= 1.5", lambda v: v <= 1.5),
-        ("contracted_share", lambda p: p["contracted_share"] if p["contracted_share"] is not None else None, ">= 0.80", lambda v: v >= 0.80),
-        ("if_per1k", lambda p: p["if_per1k"], ">= 9", lambda v: v >= 9),
-        ("if_you_openers_per1k", lambda p: round(1000 * p["if_you_openers"] / p["words"], 2), ">= 1.5", lambda v: v >= 1.5),
-        ("it_would_be_per1k", lambda p: round(1000 * p["it_would_be"] / p["words"], 2), ">= 0.6", lambda v: v >= 0.6),
-        ("hedge_share_of_stance", lambda p: round(p["hedges"] / (p["hedges"] + p["boosters"]), 3) if p["hedges"] + p["boosters"] >= 5 else None, ">= 0.85", lambda v: v >= 0.85),
-        ("verdict_openers_per1k", lambda p: round(1000 * p["verdict_openers"] / p["words"], 2), ">= 0.5", lambda v: v >= 0.5),
-        ("block_chain_two_word_share", lambda p: share(p, "term_block_chain", "term_blockchain"), "= 1.0", lambda v: v == 1.0),
-        ("double_spend_hyphen_share", lambda p: share(p, "term_double_spend_hyphen", "term_double_spend_open"), ">= 0.9", lambda v: v >= 0.9),
-        ("proof_of_work_hyphen_share", lambda p: share(p, "term_pow_hyphen", "term_pow_open"), ">= 0.9", lambda v: v >= 0.9),
-        ("e_mail_hyphen_share", lambda p: share(p, "term_e_mail_hyphen", "term_email_solid"), ">= 0.8", lambda v: v >= 0.8),
-        ("OK_caps_share", lambda p: share(p, "term_OK_caps", "term_okay"), "= 1.0", lambda v: v == 1.0),
-        ("etc_with_period_share", lambda p: share(p, "term_etc_period", "term_etc_bare"), "= 1.0", lambda v: v == 1.0),
-        ("towards_share", lambda p: share(p, "term_towards", "term_toward"), ">= 0.75", lambda v: v >= 0.75),
-        ("percent_sign_share", lambda p: share(p, "percent_attached", "percent_word"), "= 1.0", lambda v: v == 1.0),
-        ("bullet_dash_share", lambda p: share(p, "bullet_dash", "bullet_star"), "= 1.0", lambda v: v == 1.0),
-        ("numbered_paren_share", lambda p: share(p, "list_num_paren", "list_num_dot"), "= 1.0", lambda v: v == 1.0),
-        ("logical_quotation_share", lambda p: share(p, "quote_punct_outside", "quote_punct_inside"), ">= 0.75", lambda v: v >= 0.75),
-        ("non_us_spelling_share", lambda p: round(p["spelling_non_us"] / (p["spelling_non_us"] + p["spelling_us_only"]), 3) if p["spelling_non_us"] + p["spelling_us_only"] else None, ">= 0.75", lambda v: v >= 0.75),
-        ("mean_sentence_len", lambda p: p["mean_sentence_len"], "(no threshold; register-dependent)", None),
-        ("you_per1k", lambda p: p["you_per1k"], "(no threshold; register-dependent)", None),
-    ]
-    rows, match_sets = [], defaultdict(set)
-    for name, fn, cond, pred in TESTS:
-        sv = fn(sat)
-        vals = {w: fn(p) for w, p in prof.items()}
-        vals = {w: v for w, v in vals.items() if v is not None}
-        vs = sorted(vals.values())
-        pv = fn(pooled)
-        n_match = sum(1 for v in vs if pred(v)) if pred else None
-        if pred:
-            match_sets[name] = {w for w, v in vals.items() if pred(v)}
-        rows.append(dict(habit=name, satoshi_value=sv, satoshi_like_if=cond, control_pooled_value=pv,
-                         writers_with_opportunity=len(vs), writers_satoshi_like=n_match,
-                         share_satoshi_like=round(n_match / len(vs), 3) if pred and vs else None,
-                         satoshi_percentile_among_writers=pct_rank(sv, vs),
-                         control_min=vs[0] if vs else None, control_q1=vs[len(vs) // 4] if vs else None,
-                         control_median=statistics.median(vs) if vs else None, control_q3=vs[3 * len(vs) // 4] if vs else None,
-                         control_max=vs[-1] if vs else None))
-    with open(os.path.join(HERE, "..", "data", "agg", "control_population.csv"), "w", newline="", encoding="utf-8") as fh:
+    # ---------------------------------------------- roles from thread structure
+    by_topic = defaultdict(list)
+    for p in posts.values():
+        by_topic[p["topic"]].append(p)
+    for lst in by_topic.values():
+        lst.sort(key=lambda x: x["msg"])
+        prev = None
+        for i, p in enumerate(lst):
+            p["position"] = i
+            p["own_question"] = bool(T.words(p["text"])) and any(s.rstrip().endswith("?") for s in T.sentences(p["text"]))
+            p["prev_question"] = bool(prev and prev["author"] != p["author"] and prev["own_question"])
+            p["role"] = "question" if p["own_question"] else ("answer" if (p["quotes_question"] or p["prev_question"]) else "statement")
+            prev = p
+
+    # ---------------------------------------------- anonymized per-post counts
+    ids, rows = {}, []
+    for p in sorted(posts.values(), key=lambda x: x["msg"]):
+        if not p["author"] or not p["date"] or not ("2009-11-01" <= p["date"][:10] <= "2010-12-31"):
+            continue
+        c = counts(p["text"])
+        if c is None:
+            continue
+        wid = "SATOSHI" if p["author"].lower() == "satoshi" else ids.setdefault(p["author"], f"W{len(ids) + 1:04d}")
+        rows.append(dict(writer=wid, msg=p["msg"], topic=p["topic"], date=p["date"], position=p["position"], role=p["role"],
+                         own_question=int(p["own_question"]), quotes_question=int(p["quotes_question"]), prev_question=int(p["prev_question"]),
+                         text_sha256=hashlib.sha256(p["text"].encode("utf-8")).hexdigest(), **c))
+    with gzip.open(os.path.join(OUT, "post_counts.csv.gz"), "wt", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
-    # combined tests: how many eligible writers show a set of habits together
-    def combined(names):
-        meas = [w for w in prof if all(fn(prof[w]) is not None for n, fn, c, p in TESTS if n in names)]
-        return len(meas), sum(1 for w in meas if all(w in match_sets[n] for n in names))
-    COMBOS = {"punctuation_and_spacing": ["double_space_share", "semicolon_per1k", "em_en_dash_or_double_hyphen_per1k", "exclaim_per1k", "contracted_share"],
-              "most_distinctive_frequent": ["double_space_share", "contracted_share", "if_per1k", "if_you_openers_per1k"]}
-    combos = {k: dict(habits=v, writers_measurable=combined(v)[0], writers_matching_all=combined(v)[1]) for k, v in COMBOS.items()}
-    summary = dict(control_posts=sum(len(v) for v in by_writer.values()), control_writers=len(by_writer),
-                   control_words=sum(len(T.words(d)) for v in by_writer.values() for d in v),
-                   eligible_writers=len(eligible), min_words=MIN_WORDS, satoshi_words=sat["words"],
-                   combined_tests=combos,
-                   satoshi_last_edit_stamps=len(edit_rows))
-    json.dump(summary, open(os.path.join(HERE, "..", "data", "agg", "control_summary.json"), "w"), indent=1)
-    print(json.dumps(summary, indent=1))
-    for r in rows:
-        print(f"{r['habit']:36s} sat={str(r['satoshi_value']):7s} pooled={str(r['control_pooled_value']):7s} n={r['writers_with_opportunity']:4d} like={r['writers_satoshi_like']} share={r['share_satoshi_like']} pct={r['satoshi_percentile_among_writers']}")
+    n_ctrl = sum(1 for r in rows if r["writer"] != "SATOSHI")
+    print(f"pages {len(pages)}; posts in period {len(rows)} ({n_ctrl} control, {len(rows) - n_ctrl} Satoshi); control writers {len(ids)}; "
+          f"last-edit stamps {len(edit_rows)}; parity equal {sum(1 for x in parity if x[3])} of {len(parity)}")
 
 if __name__ == "__main__":
     main()

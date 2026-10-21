@@ -123,7 +123,7 @@ The earlier version gave figures for these categories that were not produced by 
 
 ## 6. Cognitive style
 
-### 6.1 Anticipating failure and sizing the safeguard [measured examples, hypothesis about style]
+### 6.1 Anticipating failure and sizing the safeguard [qualitative finding; not yet tested against other developers]
 
 The most distinctive reasoning pattern in the archive is a sequence: name an assumption that users or programmers will reasonably make, show how it fails, trace the money consequence, and propose the smallest safeguard that closes it.
 
@@ -133,13 +133,13 @@ The most distinctive reasoning pattern in the archive is a sequence: name an ass
 * **Code over instructions.** "Any backup process/procedure would just be a stopgap until there's time to properly work on coding solutions in software. We can try to use words to help the situation until code gets there." (`post_419`).
 * **The same pattern in 2008 e-mail.** Receivers "should wait before taking an action such as shipping goods" (cryptography list, 2008-11-09); an attacker "would have to buy something from a merchant, wait till it ships, then overpower the network and try to take his money back" (2008-11-03); "If a merchant actually has a problem with theft, they can make the customer wait 2 minutes" (2008-11-15); "It's all prevention." (2008-11-15).
 
-The pattern is reported from close reading, with the examples above as the evidence; it was not reduced to a single counted feature, because its surface wording varies. Its stylistic correlates are counted: "It would be very easy to" (4), "If you…" sentence openers (102, of which 77 bare "If you"), "Suppose" (5), and `1)` numbered items (39, several of them failure lists). Whether this reasoning style distinguishes the writer from other experienced protocol developers was not tested and would need a matched corpus of design discussions.
+The pattern is reported from close reading, with the examples above as the evidence; it was not reduced to a single counted feature, because its surface wording varies. Its stylistic correlates are counted: "It would be very easy to" (4), "If you…" sentence openers (102, of which 77 bare "If you"), "Suppose" (5), and `1)` numbered items (39, several of them failure lists). Whether this reasoning style distinguishes the writer from other experienced protocol developers has not been tested. Until it is, it stays a qualitative finding: the examples show that the writer reasons this way, not that others in the same position do so less. A comparable test would need a matched corpus of design discussions by experienced developers, coded for the same sequence (assumption, failure path, consequence, safeguard) by readers who do not know the authors, with agreement between coders reported. It is listed as an open item in `PROTOCOL_NEXT_TEST.md`.
 
 ### 6.2 Other habits [measured]
 
-* **Conditional and scenario-based.** `if` 11.2 per 1k (control writers' median 7.2; `CONTROL_CORPUS.md`), "If you…" opening 102 sentences, worked examples with numbers, "As a thought experiment", "Think of it as".
+* **Conditional and scenario-based.** `if` 11.2 per 1k (control writers' median 7.2; but 15 of 44 writers reach Satoshi's level when only answers to questions are compared, so much of this is his answering role; `CONTROL_CORPUS.md`), "If you…" opening 102 sentences, worked examples with numbers, "As a thought experiment", "Think of it as".
 * **Quantifies by default.** About 36 numerals per 1,000 words; percentages always as `%`; multipliers as `1.7x`; "an order of magnitude" (4).
-* **Hedged predictions, flat decisions.** 281 hedges against 26 boosters (92% hedges; about half of contemporary writers are as hedge-heavy), with the hedges attached to predictions and other people's domains and the flat statements attached to his own code.
+* **Hedged predictions, flat decisions.** 264 hedges against 26 boosters, counted without overlap (91% hedges; 47 of 107 eligible contemporary writers are as hedge-heavy), with the hedges attached to predictions and other people's domains and the flat statements attached to his own code.
 * **Economy.** Median post 69 words, median sentence 11, 37% of paragraphs a single sentence; answers end on a commitment ("I'll look into it").
 
 ---

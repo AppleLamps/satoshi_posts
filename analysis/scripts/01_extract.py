@@ -186,9 +186,9 @@ def strip_signature(segs, platform):
             return segs, True
     return segs, False
 
-CODE_LINE_RE = re.compile(r"^(?: {4,}\S|sudo |cd |make\b|tar -|mkdir |ldconfig|\.\./configure|LIBS=|#|-l |-Wl|\$ |svn |git |apt-get|wget |curl |export |chmod |\./|\+\s|gdb |bt$|run$|[A-Za-z_][A-Za-z0-9_:<>.\[\]-]*\s*\(.*\)\s*;|.*\)\s*;\s*(?://.*)?$|.*;\s*//.*$|.*\bwx[A-Z]\w*\s*[|)]|\s*[{}]\s*$|//|\s*(?:if|else if|while|for)\s*\(.*\)\s*$|[A-Za-z_][A-Za-z0-9_]*\s*=\s*[^=].*;\s*$|(?:bitcoind?|gdb)\s+-|\w+\s*(?:<<|>>)\s*\w+;|.*\(\s*$|.*\bstr[A-Z]\w+.*;|\s*\d+\)\s+\w+\(.*\)\s*;|.*\\n\s*$|[\w.\\/]+\.(?:cpp|h|dat|exe|dll|txt|conf|po|mo)\s*$|\(\s*wait for)")
-
-GLOSS_RE = re.compile(r"\s--\s+(\S.*)$")
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from cleaning import CODE_LINE_RE, GLOSS_RE, split_code_lines  # shared with 07_control_corpus.py
 
 def apply_overrides(segs, rec):
     flags = set()
@@ -221,32 +221,13 @@ def apply_overrides(segs, rec):
         flags.add("manual_quote_split")
     if pid == 543:
         flags.add("disputed_authorship")
-    # inline code lines
+    # inline code lines (R12, R12b; cleaning.split_code_lines)
     new, n_code_lines, n_gloss = [], 0, [0]
     for s in segs:
         if s["type"] != "own" or not CODE_LINE_RE.search(s["text"]) and "\n" not in s["text"]:
             new.append(s); continue
-        buf_kind, buf = None, []
-        for line in s["text"].split("\n"):
-            kind = "inline_code" if CODE_LINE_RE.match(line) else "own"
-            gloss = None
-            if kind == "inline_code":
-                n_code_lines += 1
-                # R12b: a code line followed by " -- " and an explanation of 5+
-                # words keeps the explanation as the author's prose
-                gm = GLOSS_RE.search(line)
-                if gm and len(re.findall(r"[A-Za-z]+", gm.group(1))) >= 5:
-                    gloss = gm.group(1); line = line[:gm.start(1)]
-                    n_gloss[0] += 1
-            if kind != buf_kind and buf:
-                new.append({"type": buf_kind, "text": "\n".join(buf) + "\n"}); buf = []
-            buf_kind = kind; buf.append(line)
-            if gloss:
-                new.append({"type": "inline_code", "text": "\n".join(buf)})
-                new.append({"type": "own", "text": gloss + "\n"})
-                buf_kind, buf = None, []
-        if buf:
-            new.append({"type": buf_kind, "text": "\n".join(buf)})
+        parts, nc, ng = split_code_lines(s["text"])
+        new.extend(parts); n_code_lines += nc; n_gloss[0] += ng
     if n_code_lines:
         flags.add(f"inline_code_lines={n_code_lines}")
     if n_gloss[0]:

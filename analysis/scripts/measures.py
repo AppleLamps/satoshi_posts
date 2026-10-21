@@ -82,13 +82,26 @@ BOOSTERS = {
     "clearly": r"\bclearly\b", "surely": r"\bsurely\b", "of course": r"\bof course\b",
     "undoubtedly": r"\bundoubtedly\b", "absolutely": r"\babsolutely\b", "I'm sure": r"\bI'm sure\b",
 }
-_HEDGE_RX = {k: re.compile(v, re.I) for k, v in HEDGES.items()}
-_BOOST_RX = {k: re.compile(v, re.I) for k, v in BOOSTERS.items()}
+def _alternation(lex):
+    """One regex with a named group per item, longest pattern first, so that
+    overlapping items are matched once: "I'm not sure" is counted under
+    "I'm not sure" only, and "not sure" counts the remaining uses
+    (e.g. "I am not sure", "not sure if")."""
+    keys = sorted(lex, key=lambda k: -len(k))
+    names = {f"g{i}": k for i, k in enumerate(keys)}
+    rx = re.compile("|".join(f"(?P<g{i}>{lex[k]})" for i, k in enumerate(keys)), re.I)
+    return rx, names
+_HEDGE_ALT = _alternation(HEDGES)
+_BOOST_ALT = _alternation(BOOSTERS)
 
 def lexicon_counts(text, which):
-    rx = _HEDGE_RX if which == "hedges" else _BOOST_RX
-    t = T.mask_urls(text)
-    return {k: len(r.findall(t)) for k, r in rx.items()}
+    """Non-overlapping counts per lexicon item; sum(values) is the number of
+    separate stance markers."""
+    rx, names = _HEDGE_ALT if which == "hedges" else _BOOST_ALT
+    out = {k: 0 for k in names.values()}
+    for m in rx.finditer(T.mask_urls(text)):
+        out[names[m.lastgroup]] += 1
+    return out
 
 # --------------------------------------------------------------- affect / topic lexicons
 # Used for the change-over-time affect table. Lists are deliberately short and
@@ -114,8 +127,9 @@ def contractions(text):
     """Return (all_contractions, contracted_where_choice, full_where_choice)."""
     t = T.mask_urls(text).replace("’", "'")
     allc = len(T.CONTRACTION_RE.findall(t))
-    c = sum(len(re.findall(r"\b" + re.escape(f) + r"\b", t)) for f in CONTRACTED)
-    f = sum(len(re.findall(r"\b" + re.escape(x) + r"\b", t)) for x in FULL)
+    # case-insensitive, so "It's" / "It is" count like "it's" / "it is"
+    c = sum(len(re.findall(r"\b" + re.escape(f) + r"\b", t, re.I)) for f in CONTRACTED)
+    f = sum(len(re.findall(r"\b" + re.escape(x) + r"\b", t, re.I)) for x in FULL)
     return allc, c, f
 
 IRREG_PP = "been|done|gone|seen|taken|given|made|known|shown|written|found|held|kept|left|lost|put|read|run|sent|set|spent|told|thought|built|bought|brought|caught|chosen|cut|dealt|drawn|driven|eaten|fallen|felt|forgotten|frozen|hidden|hit|led|meant|paid|proven|proved|sold|spoken|stolen|stuck|struck|taught|thrown|understood|won|broken|begun|become|come|hung|lent|rid|shut|split|spread|swept|torn|worn|bound|fed|laid|lit|met|overridden|rewritten|undone|beaten|bent|blown|bred|burnt|cast|dug|fit|flown|grown|let|ridden|risen|sought|shaken|shot|slid|sprung|stood|sung|sunk|swung|woken|wound|withdrawn"
@@ -242,7 +256,7 @@ def profile(docs):
         it_would_be=len(re.findall(r"\bit would be\b", text, re.I)),
         hedges=sum(hed.values()), hedges_per1k=per1k(sum(hed.values())),
         boosters=sum(bst.values()), boosters_per1k=per1k(sum(bst.values())),
-        I_think=hed["I think"], not_sure=hed["not sure"], probably=hed["probably"], maybe=hed["maybe"],
+        I_think=hed["I think"], not_sure=hed["I'm not sure"] + hed["not sure"], probably=hed["probably"], maybe=hed["maybe"],
         obviously=bst["obviously"], certainly=bst["certainly"], definitely=bst["definitely"],
         list_num_paren=ls["num_paren"], list_num_dot=ls["num_dot"], bullet_dash=ls["bullet_dash"], bullet_star=ls["bullet_star"],
         percent_attached=mk["percent_attached"], percent_word=mk["percent_word"],
