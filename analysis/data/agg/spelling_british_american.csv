@@ -1,0 +1,43 @@
+british,american,british_count,british_docs,american_count,american_docs,british_post_ids,american_post_ids
+colour,color,2,2,4,2,82 427,129 202
+favour,favor,1,1,0,0,349,
+neighbour,neighbor,1,1,0,0,301,
+metre,meter,0,0,3,2,,191 199
+defence,defense,1,1,0,0,320,
+licence,license,0,0,4,4,,75 90 125 450
+practise,practice,0,0,5,5,,29 237 247 311 532
+programme,program,0,0,26,21,,16 18 23 24 48 50 61 138 141 177 182 195
+catalogue,catalog,0,0,6,3,,61 196 483
+dialogue,dialog,0,0,6,5,,13 24 98 99 430
+grey,gray,2,2,0,0,305 427,
+cheque,check,0,0,39,34,,1 34 61 65 73 100 104 106 140 144 163 200
+maths,math,1,1,0,0,134,
+whilst,while,0,0,26,26,,7 8 22 30 91 99 126 127 210 218 219 257
+towards,toward,9,8,2,2,50 64 66 103 186 250 463 541,64 96
+forwards,forward,3,2,6,6,10 40,10 14 58 376 419 420
+backwards,backward,0,0,4,4,,126 144 356 532
+labelled,labeled,1,1,0,0,85,
+labelling,labeling,1,1,0,0,108,
+judgement,judgment,0,0,1,1,,1
+fulfil,fulfill,1,1,0,0,35,
+burnt,burned,0,0,1,1,,339
+gotten,got,1,1,16,15,404,68 83 123 129 199 226 242 273 288 291 302 331
+realise,realize,0,0,3,3,,34 235 311
+realised,realized,0,0,2,2,,364 528
+recognise,recognize,0,0,1,1,,441
+optimised,optimized,1,1,2,2,442,153 307
+optimisation,optimization,8,8,1,1,142 242 284 288 312 452 521 525,58
+optimisations,optimizations,0,0,1,1,,134
+minimise,minimize,0,0,8,6,,13 24 26 129 184 305
+minimised,minimized,0,0,2,2,,18 26
+maximise,maximize,0,0,2,1,,129
+prioritising,prioritizing,1,1,0,0,500,
+serialise,serialize,0,0,4,2,,37 264
+serialisation,serialization,0,0,4,1,,307
+initialise,initialize,0,0,1,1,,79
+summarise,summarize,0,0,1,1,,22
+decentralised,decentralized,2,2,2,2,119 466,1 2
+formalised,formalized,1,1,0,0,504,
+analysed,analyzed,1,1,0,0,44,
+criticised,criticized,0,0,2,2,,329 523
+minimising,minimizing,0,0,1,1,,240

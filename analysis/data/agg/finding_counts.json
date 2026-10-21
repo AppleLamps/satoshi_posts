@@ -1,0 +1,177 @@
+{
+ "F01": {
+  "label": "Two spaces after sentence-final punctuation (BitcoinTalk; stored by the forum as NBSP+space)",
+  "count": 1485,
+  "posts": 440
+ },
+ "F02": {
+  "label": "Single space after sentence-final punctuation in P2P Foundation posts (platform collapsed whitespace; original form not established)",
+  "count": 32,
+  "posts": 3
+ },
+ "F03": {
+  "label": "Heavy use of contractions (it's, don't, I'm, you're, it'll, there's)",
+  "count": 719,
+  "posts": 327
+ },
+ "F04": {
+  "label": "Conditional-politeness frame 'It would be' / 'would be nice'",
+  "count": 46,
+  "posts": 39
+ },
+ "F05": {
+  "label": "Sentence-initial 'If you' second-person conditional",
+  "count": 99,
+  "posts": 80
+ },
+ "F06": {
+  "label": "Hedges 'I think' and 'I'm not sure'",
+  "count": 92,
+  "posts": 74
+ },
+ "F07": {
+  "label": "One-word verdict openers 'Right,' 'Yes,' 'No,' 'True,' 'OK,' 'Nope.'",
+  "count": 37,
+  "posts": 35
+ },
+ "F08": {
+  "label": "Politeness formulas 'Thanks' / 'Sorry' / 'please'",
+  "count": 39,
+  "posts": 37
+ },
+ "F09": {
+  "label": "Logical punctuation: period or comma placed outside closing quotation mark",
+  "count": 39,
+  "posts": 32
+ },
+ "F09b": {
+  "label": "Full-sentence quotation with period inside the closing quotation mark (the exceptions)",
+  "count": 7,
+  "posts": 7
+ },
+ "F10": {
+  "label": "Numbered lists with '1)' style and bullet lists with '- '",
+  "count": 179,
+  "posts": 43
+ },
+ "F11": {
+  "label": "Semicolon in prose (very rare: 3 in the whole corpus)",
+  "count": 3,
+  "posts": 3
+ },
+ "F12": {
+  "label": "Double hyphen used as a dash (no em dash anywhere)",
+  "count": 5,
+  "posts": 2
+ },
+ "F13": {
+  "label": "Ellipsis for trailing thought",
+  "count": 5,
+  "posts": 5
+ },
+ "F14": {
+  "label": "Exclamation marks concentrated in release announcements and thanks",
+  "count": 35,
+  "posts": 29
+ },
+ "F15": {
+  "label": "British spellings",
+  "count": 29,
+  "posts": 27
+ },
+ "F16": {
+  "label": "American spellings",
+  "count": 20,
+  "posts": 16
+ },
+ "F17": {
+  "label": "'towards' preferred over 'toward'",
+  "count": 11,
+  "posts": 9
+ },
+ "F18": {
+  "label": "Misspellings and slips",
+  "count": 9,
+  "posts": 8
+ },
+ "F19": {
+  "label": "Term formation: 'block chain' as two words, hyphenated 'double-spend' and 'proof-of-work', lower-case 'bitcoin'",
+  "count": 75,
+  "posts": 44
+ },
+ "F20": {
+  "label": "Currency unit: 'bc' in 2009-Feb 2010, 'BTC' from May 2010",
+  "count": 18,
+  "posts": 12
+ },
+ "F21": {
+  "label": "Upper-case acronyms (TOR, SVN, IRC, CPU, JSON-RPC) and 'SVN rev N' formula",
+  "count": 160,
+  "posts": 101
+ },
+ "F22": {
+  "label": "Idioms and analogies",
+  "count": 14,
+  "posts": 12
+ },
+ "F24": {
+  "label": "Parenthetical asides, often as stand-alone sentences",
+  "count": 49,
+  "posts": 43
+ },
+ "F25": {
+  "label": "Post-hoc 'Edit:' / 'Update:' markers",
+  "count": 4,
+  "posts": 4
+ },
+ "F26": {
+  "label": "Instructional second person 'you can' / 'you need to'",
+  "count": 150,
+  "posts": 116
+ },
+ "F27": {
+  "label": "Release-note template: 'Version X is now available', 'Changes:', 'Download:', 'I uploaded ... to SVN'",
+  "count": 37,
+  "posts": 26
+ },
+ "F28": {
+  "label": "Interjections are rare (Hmm, Sigh, Hurray)",
+  "count": 3,
+  "posts": 3
+ },
+ "F29": {
+  "label": "Case-preserving: identifiers keep lower case at sentence start",
+  "count": 20,
+  "posts": 20
+ },
+ "F30": {
+  "label": "Verdict fragments and very short sentences",
+  "count": 3,
+  "posts": 2
+ },
+ "F31": {
+  "label": "Numbers: '%' attached without space, 'Nx' multipliers, few thousands separators",
+  "count": 110,
+  "posts": 44
+ },
+ "F33": {
+  "label": "'a lot' always two words; 'OK' always upper case",
+  "count": 45,
+  "posts": 38
+ },
+ "F34": {
+  "label": "Sentence-initial 'Also,' / 'Then' / 'Anyway' are rare; preferred connectives 'but', 'so', 'then'",
+  "count": 53,
+  "posts": 50
+ },
+ "F35": {
+  "label": "Future-tense self-commitments 'I'll ...'",
+  "count": 19,
+  "posts": 19
+ },
+ "F36": {
+  "label": "Passive constructions (moderate; 'is designed', 'was merged', 'be trusted')",
+  "count": 80,
+  "posts": 63
+ }
+}

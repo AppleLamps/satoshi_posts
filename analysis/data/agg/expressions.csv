@@ -1,0 +1,164 @@
+expression,count,per1k_words,doc_freq,doc_pct
+I think,54,1.11,47,8.8
+someone,49,1.008,41,7.6
+until,46,0.946,38,7.1
+very,44,0.905,40,7.4
+probably,43,0.884,38,7.1
+I'll,36,0.74,36,6.7
+a lot,33,0.679,27,5.0
+at least,31,0.637,27,5.0
+really,31,0.637,30,5.6
+block chain,31,0.637,23,4.3
+instead,30,0.617,28,5.2
+a few,28,0.576,26,4.8
+maybe,26,0.535,23,4.3
+Thanks,25,0.514,25,4.7
+anyone,25,0.514,24,4.5
+double-spend,23,0.473,7,1.3
+it would be,21,0.432,19,3.5
+actually,20,0.411,19,3.5
+though,20,0.411,20,3.7
+everyone,20,0.411,19,3.5
+not sure,18,0.37,18,3.4
+Please,18,0.37,18,3.4
+I'm not sure,17,0.35,17,3.2
+I guess,15,0.308,14,2.6
+the only,15,0.308,14,2.6
+a little,15,0.308,15,2.8
+please,15,0.308,14,2.6
+would be nice,14,0.288,13,2.4
+OK,14,0.288,13,2.4
+proof-of-work,14,0.288,12,2.2
+it should be,13,0.267,13,2.4
+rather,13,0.267,12,2.2
+kind of,12,0.247,12,2.2
+anyway,12,0.247,12,2.2
+usually,12,0.247,11,2.0
+unless,12,0.247,12,2.2
+I don't think,11,0.226,11,2.0
+I've been,11,0.226,10,1.9
+in case,11,0.226,11,2.0
+nobody,11,0.226,9,1.7
+Sorry,10,0.206,10,1.9
+Yes,10,0.206,10,1.9
+Right,10,0.206,10,1.9
+practical,10,0.206,5,0.9
+completely,9,0.185,9,1.7
+"No,",9,0.185,9,1.7
+good idea,9,0.185,8,1.5
+towards,9,0.185,8,1.5
+I know,8,0.165,8,1.5
+as long as,8,0.165,7,1.3
+there's no,8,0.165,8,1.5
+even if,8,0.165,8,1.5
+I'd rather,7,0.144,6,1.1
+ought to,7,0.144,7,1.3
+definitely,7,0.144,7,1.3
+pretty,7,0.144,7,1.3
+exactly,7,0.144,7,1.3
+vs,7,0.144,7,1.3
+I believe,6,0.123,6,1.1
+typically,6,0.123,6,1.1
+although,6,0.123,6,1.1
+huge,6,0.123,6,1.1
+convenient,6,0.123,6,1.1
+for now,5,0.103,5,0.9
+so far,5,0.103,5,0.9
+essentially,5,0.103,5,0.9
+BTW,5,0.103,5,0.9
+etc,5,0.103,5,0.9
+Yeah,5,0.103,5,0.9
+lots of,5,0.103,5,0.9
+I suppose,4,0.082,4,0.7
+I wonder,4,0.082,3,0.6
+right now,4,0.082,4,0.7
+e.g.,4,0.082,4,0.7
+True,4,0.082,4,0.7
+the problem is,4,0.082,4,0.7
+otherwise,4,0.082,4,0.7
+overhead,4,0.082,4,0.7
+basically,3,0.062,3,0.6
+certainly,3,0.062,3,0.6
+quite,3,0.062,3,0.6
+good point,3,0.062,3,0.6
+a bunch of,3,0.062,3,0.6
+impractical,3,0.062,3,0.6
+trivial,3,0.062,2,0.4
+I'd like,2,0.041,2,0.4
+I'm working on,2,0.041,2,0.4
+in practice,2,0.041,2,0.4
+at some point,2,0.041,2,0.4
+a bit,2,0.041,2,0.4
+unfortunately,2,0.041,2,0.4
+Thank you,2,0.041,2,0.4
+sorry,2,0.041,2,0.4
+Welcome,2,0.041,2,0.4
+I agree,2,0.041,2,0.4
+therefore,2,0.041,2,0.4
+toward,2,0.041,2,0.4
+in order to,2,0.041,2,0.4
+as well as,2,0.041,2,0.4
+nutshell,2,0.041,2,0.4
+neat,2,0.041,2,0.4
+hack,2,0.041,2,0.4
+in the meantime,1,0.021,1,0.2
+there is no,1,0.021,1,0.2
+sort of,1,0.021,1,0.2
+pretty much,1,0.021,1,0.2
+AFAIK,1,0.021,1,0.2
+Nope,1,0.021,1,0.2
+Good idea,1,0.021,1,0.2
+Good question,1,0.021,1,0.2
+Nice,1,0.021,1,0.2
+Great,1,0.021,1,0.2
+Hmm,1,0.021,1,0.2
+That's right,1,0.021,1,0.2
+if so,1,0.021,1,0.2
+if not,1,0.021,1,0.2
+hence,1,0.021,1,0.2
+a couple,1,0.021,1,0.2
+bogged down,1,0.021,1,0.2
+out the door,1,0.021,1,0.2
+handy,1,0.021,1,0.2
+quirky,1,0.021,1,0.2
+clunky,1,0.021,1,0.2
+messy,1,0.021,1,0.2
+hassle,1,0.021,1,0.2
+in theory,0,0.0,0,0.0
+in general,0,0.0,0,0.0
+in that case,0,0.0,0,0.0
+as far as,0,0.0,0,0.0
+it would be nice,0,0.0,0,0.0
+obviously,0,0.0,0,0.0
+of course,0,0.0,0,0.0
+hopefully,0,0.0,0,0.0
+FWIW,0,0.0,0,0.0
+IMO,0,0.0,0,0.0
+i.e.,0,0.0,0,0.0
+okay,0,0.0,0,0.0
+Good catch,0,0.0,0,0.0
+Cool,0,0.0,0,0.0
+Heh,0,0.0,0,0.0
+LOL,0,0.0,0,0.0
+You're right,0,0.0,0,0.0
+you're right,0,0.0,0,0.0
+makes sense,0,0.0,0,0.0
+the thing is,0,0.0,0,0.0
+the key is,0,0.0,0,0.0
+the trick is,0,0.0,0,0.0
+worst case,0,0.0,0,0.0
+however,0,0.0,0,0.0
+thus,0,0.0,0,0.0
+whilst,0,0.0,0,0.0
+amongst,0,0.0,0,0.0
+among,0,0.0,0,0.0
+till,0,0.0,0,0.0
+nifty,0,0.0,0,0.0
+kludge,0,0.0,0,0.0
+silly,0,0.0,0,0.0
+trusted third party,0,0.0,0,0.0
+blockchain,0,0.0,0,0.0
+no one,0,0.0,0,0.0
+anybody,0,0.0,0,0.0
+somebody,0,0.0,0,0.0
+everybody,0,0.0,0,0.0

@@ -1,0 +1,16 @@
+feature,count,per1k_words
+modals,1330,27.349
+pron_second,1006,20.687
+pron_first_sg,762,15.669
+pron_third_they,333,6.848
+modal_would,323,6.642
+pron_first_pl,305,6.272
+modal_can,280,5.758
+modal_could,167,3.434
+modal_should,135,2.776
+modal_will,133,2.735
+modal_may,52,1.069
+modal_might,38,0.781
+modal_must,37,0.761
+pron_third_he,35,0.72
+pron_third_she,0,0.0

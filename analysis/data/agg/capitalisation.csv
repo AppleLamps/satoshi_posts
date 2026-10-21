@@ -1,0 +1,41 @@
+term,surface_form,count
+bitcoin,bitcoin,133
+bitcoin,Bitcoin,98
+bitcoins,bitcoins,9
+bitcoins,Bitcoins,7
+bitcoin address,bitcoin address,47
+bitcoin address,Bitcoin Address,4
+block chain,block chain,31
+proof-of-work,proof-of-work,13
+proof-of-work,Proof-of-work,1
+internet,Internet,2
+internet,internet,2
+web,web,16
+web,Web,1
+linux,Linux,50
+linux,linux,26
+windows,Windows,46
+windows,windows,6
+windows,WINDOWS,1
+mac,Mac,19
+tor,TOR,24
+tor,Tor,4
+irc,IRC,40
+svn,SVN,81
+json-rpc,JSON-RPC,33
+json-rpc,json-rpc,18
+rpc,RPC,37
+rpc,rpc,24
+cpu,CPU,44
+cpu,cpu,2
+gpu,GPU,5
+ok,OK,14
+ok,ok,1
+btc,BTC,16
+p2p,P2P,9
+e-mail,e-mail,8
+email,email,1
+wallet,wallet,47
+node,node,53
+nodes,nodes,99
+nodes,Nodes,5

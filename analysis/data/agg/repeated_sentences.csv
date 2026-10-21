@@ -1,0 +1,14 @@
+sentence,n_posts,post_ids
+- autostart on boot option so you can keep it running in the background automatically,2,13 24
+- multi-processor support for coin generation,2,13 24
+sorry to be a wet blanket.,2,166 214
+the json-rpc http authentication feature in 0.3.3 solves this problem.,2,246 262
+- gavin andresen's http authentication to secure json-rpc,2,263 267
+"- 5x faster initial block download, under 30 minutes",2,263 267
+windows and linux users: if you got 0.3.5 you still need to upgrade to 0.3.6.,2,288 291
+sha1 16645ec5fcdb35bc54bc7195309a1a81105242bb bitcoin-0.3.10-win32-setup.exe,3,371 373 375
+sha1 4f35ad7711a38fe8c880c6c9beab430824c426d3 bitcoin-0.3.10-win32.zip,3,371 373 375
+sha1 e3fda1ddb31b0d5c35156cacd80dee6ea6ae6423 bitcoin-0.3.10-linux.tar.gz,2,373 375
+then a backup will last forward for a long time.,2,419 420
+"print ""send to "" + getaccountaddress(username) + "" to fund your account""",2,497 535
+"- it does not return work when you submit a possible hit, only when called without parameter.",2,506 508

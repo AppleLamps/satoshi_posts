@@ -1,0 +1,437 @@
+word,count,doc_freq,post_ids,spellchecker_suggestion
+bitcoin,224,146,1 4 10 15 16 17 18 20 24 26,bitching
+json,61,39,48 67 70 99 103 124 167 218 225 228,son
+wxwidgets,58,28,20 22 23 25 37 47 48 50 52 54,widgets
+bitcoind,25,17,79 103 124 143 154 157 218 239 241 245,bitching
+http,21,77,1 4 14 22 24 25 41 50 70 74,help
+unix,20,14,23 37 54 85 120 143 291 296 299 357,unit
+makefile,17,13,20 37 54 83 120 143 284 291 296 299,
+listtransactions,17,6,298 523 525 526 529 535,
+crypto,16,13,1 278 279 281 284 288 299 330 331 355,crypt
+bitcoins,16,13,10 18 90 94 96 99 104 155 426 456,bitching
+mingw,15,12,158 242 277 279 284 357 358 359 360 361,ming
+getreceivedbylabel,13,8,106 218 225 241 298 408 413 428,
+getwork,13,7,506 508 509 511 516 518 531,network
+sourceforge,12,24,4 15 24 50 54 192 226 288 290 300,
+poedit,12,7,48 61 110 196 483 485 491,credit
+conf,12,6,220 251 259 500 502 504,con
+bitdns,12,5,527 531 532 534 536,birds
+endian,11,4,20 431 506 508,indian
+ansi,11,7,22 37 50 85 170 399 421,anti
+getbalance,11,9,228 241 408 413 428 497 511 525 535,outbalance
+reorg,11,8,375 386 388 392 393 394 503 523,report
+micropayments,10,5,1 104 316 317 363,
+ecdsa,10,6,32 36 269 276 455 495,ends
+cpus,10,8,131 134 326 329 362 442 443 515,cups
+paytxfee,10,7,348 352 440 445 501 502 504,
+multi,9,9,1 13 24 85 96 125 349 488 498,mufti
+bitcoinaddress,9,6,99 122 241 271 497 535,
+getnewaddress,9,7,101 106 218 223 225 241 496,
+getreceivedbyaddress,9,8,106 137 241 298 408 413 428 526,
+addnode,8,6,10 49 127 377 379 480,anode
+appdata,8,6,16 18 131 139 140 170,
+getinfo,8,8,70 228 241 254 283 416 428 501,
+wxbase,8,7,73 79 81 83 143 218 277,base
+listreceivedbyaddress,8,6,106 108 241 408 413 428,
+listreceivedbylabel,8,6,106 108 241 408 413 428,
+khash,8,6,131 134 142 177 199 397,hash
+optimisation,8,8,142 242 284 288 312 452 521 525,optimization
+ripemd,8,1,271,ripped
+midstate,8,5,284 288 506 507 508,misstate
+hyperthreading,8,5,375 383 385 401 410,
+timestamp,7,6,1 285 338 527 528 532,
+sourcecode,7,6,61 238 278 431 483 491,
+init,7,5,73 79 218 277 437,unit
+minconf,7,3,108 241 526,minions
+laszlo,7,13,124 140 141 142 148 149 165 167 181 192,lasso
+hashmeter,7,3,131 157 167,machmeter
+config,7,4,250 259 334 421,confirm
+msvc,7,5,264 279 334 337 348,move
+blkindex,7,5,370 371 492 510 512,blinded
+wxstring,6,3,22 37 399,wasting
+wchar,6,3,22 37 85,char
+datadir,6,4,26 283 348 421,matador
+resync,6,3,31 34 60,resent
+freenode,6,6,62 91 116 148 149 169,
+addr,6,5,91 116 231 257 480,add
+redownload,6,6,141 370 371 489 492 493,download
+disablesafemode,6,6,411 413 414 415 428 542,
+getaccountaddress,6,5,496 497 511 525 535,
+runtime,5,4,21 48 281 330,untie
+apps,5,5,41 70 107 129 494,apes
+openssl,5,5,52 100 186 242 357,opens
+prio,5,2,89 181,prior
+theymos,5,5,107 455 463 477 486,thermos
+merkle,5,2,121 532,merle
+grep,5,4,131 136 157 472,grew
+bitcoinminer,5,5,144 242 360 361 501,
+rescan,5,4,229 419 420 491,rescue
+sendtoaddress,5,5,241 408 413 428 511,
+tcatm,5,15,279 288 312 329 354 362 371 373 375 383,that
+sendfrom,5,5,497 511 523 525 535,
+scanhash,5,2,507 508,
+admin,4,4,1 15 20 314,admit
+freebsd,4,4,18 25 67 103,freed
+wxmac,4,2,22 345,woman
+langcode,4,1,61,lingcods
+loopback,4,3,70 99 246,roorback
+pecunix,4,1,94,petunia
+misc,4,4,104 106 348 368,miss
+includeempty,4,2,108 241,
+libboost,4,2,143 300,
+mapconfig,4,2,250 251,
+rpcpassword,4,1,259,
+maxconnections,4,1,335,
+txid,4,3,356 523 526,this
+backupwallet,4,4,420 434 436 439,
+andresen,4,8,192 257 263 267 439 465 471 490,andersen
+cpuid,4,3,443 472 473,cupid
+extranonce,4,2,478 508,
+martti,3,3,12 13 24,marti
+autostart,3,3,13 24 348,
+upnp,3,2,14 160,up
+backend,3,3,20 30 157,backed
+libs,3,2,28 50,lies
+sudo,3,3,28 50 73,judo
+makefiles,3,3,37 277 330,
+keypair,3,3,43 68 276,repair
+precompiled,3,2,52 452,recompiled
+madhatter,3,3,67 103 146,
+params,3,2,70 260,prams
+uibase,3,3,79 277 371,base
+html,3,6,22 25 81 99 248 298,him
+cert,3,3,113 117 454,cart
+datawraith,3,3,123 124 167,
+filesystem,3,3,143 299 423,
+minimizetotray,3,3,188 206 240,
+pseudocode,3,3,223 497 535,pseudopod
+rpcpw,3,3,241 245 249,
+yaml,3,1,250,yam
+inpoint,3,1,341,pinpoint
+fcdb,3,3,371 373 375,fed
+beab,3,3,371 373 375,beat
+allowreceivebyip,3,3,454 465 471,
+specialbuild,3,3,471 473 479,
+testnet,3,3,490 500 501,tested
+mingwm,3,2,494 498,ming
+pdata,3,1,508,data
+screenshots,2,2,1 396,
+autoconf,2,1,20,
+listview,2,1,20,
+wxosx,2,2,22 345,whose
+malmi,2,1,24,salmi
+wxmsw,2,2,25 357,
+doubleclick,2,2,33 445,
+retarget,2,2,42 66,target
+gettext,2,1,48,wettest
+sourcefiles,2,2,48 196,
+buildable,2,1,54,billable
+libgtk,2,2,70 73,
+getdifficulty,2,2,70 241,
+setgenerate,2,2,70 241,degenerate
+wxuse,2,2,79 81,use
+colour,2,2,82 427,color
+arrstr,2,1,83,arrest
+wxdebug,2,2,83 357,debug
+codepage,2,1,85,coverage
+util,2,2,88 452,until
+mihalism,2,2,96 488,nihilism
+mailto,2,2,99 117,mail
+setlabel,2,2,106 241,relabel
+getlabel,2,2,106 241,relabel
+getaddressesbylabel,2,2,106 241,
+getallreceived,2,2,106 108,
+strusername,2,1,106,
+auadzcfyqagx,2,1,113,
+wennfurk,2,1,113,
+skodu,2,1,113,soda
+someseparatorcharacter,2,1,113,
+lookup,2,2,113 487,lockup
+decentralised,2,2,119 466,decentralized
+xunie,2,2,124 167,unit
+joozero,2,2,124 167,boozer
+hardcoded,2,2,127 389,hardcore
+findstr,2,2,131 382,finds
+mybitcoin,2,3,104 153 516,
+bittorrent,2,2,160 323,
+ascii,2,2,174 192,asci
+dbrunrecoveryexception,2,2,192 291,
+libcrypto,2,2,192 211,
+proc,2,1,199,pro
+filename,2,2,218 251,forename
+slashdotted,2,2,248 315,
+whitespace,2,2,250 251,
+fortran,2,2,259 273,foreman
+postmessage,2,1,260,
+flatdata,2,1,264,flatmate
+subdir,2,1,283,submit
+glibc,2,2,292 296,glib
+distro,2,2,295 399,bistro
+uncompressible,2,2,307 517,incompressible
+untrusted,2,2,326 510,entrusted
+ifdef,2,2,330 423,idea
+cryptopp,2,2,334 432,
+backtrace,2,2,338 520,backtrack
+bugfixes,2,2,348 501,buggies
+vess,2,1,351,less
+nelisky,2,2,351 420,nevsky
+thash,2,2,358 429,trash
+sigsegv,2,2,360 361,
+objs,2,1,371,obis
+cacd,2,2,373 375,card
+amdfamk,2,1,383,
+amdfam,2,2,384 428,madam
+addtoblockindex,2,1,388,
+copyfile,2,1,422,copyable
+const,2,1,422,cost
+khps,2,1,442,kips
+amds,2,2,443 472,adds
+rpcallowip,2,2,465 471,
+sigterm,2,2,465 471,sister
+eurekafag,2,2,482 490,
+selectcoins,2,2,486 500,selections
+lockdown,2,1,492,lowdown
+blocknumber,2,1,503,
+mchil,2,4,505 506 508 511,child
+wikileaks,2,2,522 541,
+checksig,2,2,527 528,checking
+pubkey,2,1,528,turkey
+chaumian,1,1,2,chapman
+repost,1,1,4,report
+portscan,1,1,14,sportsman
+ssling,1,1,14,sling
+webmail,1,1,15,email
+easer,1,1,19,easier
+pframemain,1,1,21,
+ptaskbaricon,1,1,21,
+checkdiskspace,1,1,21,
+satoshi,1,2,24 275,satori
+nakamoto,1,2,24 275,
+malloc,1,1,25,mallow
+doubleclicked,1,1,26,
+truecrypt,1,1,26,
+sizeof,1,1,37,size
+checksum,1,1,40,checks
+polipo,1,1,41,polio
+privoxy,1,1,41,privacy
+getnextworkrequired,1,1,42,
+ffff,1,1,42,faff
+analysed,1,1,44,analyzed
+reskins,1,1,48,redskins
+routable,1,1,49,portable
+libwxgtk,1,1,50,
+mitm,1,1,53,mit
+walkthrough,1,1,61,
+mkdir,1,1,61,media
+rcconf,1,1,67,recon
+ctrl,1,1,69,curl
+ifdefs,1,1,73,ideas
+inited,1,1,79,invited
+wxgettranslation,1,1,79,
+wxmutex,1,1,79,
+clipbrd,1,1,81,climbed
+exisits,1,1,81,exists
+wxassert,1,1,83,assert
+setthreadpriority,1,1,89,
+imageshack,1,1,90,
+rapidshare,1,2,90 371,
+downloaders,1,1,90,downloaded
+webserver,1,1,90,observer
+soultcer,1,1,91,souther
+psiphon,1,1,95,siphon
+liberalising,1,1,96,liberalizing
+naggy,1,1,96,baggy
+cleartext,1,1,98,clearest
+secp,1,1,100,sec
+sheriffwoody,1,1,101,
+generica,1,1,103,generic
+getamountreceived,1,1,106,
+bylabel,1,1,106,label
+middled,1,1,113,middle
+bnextranonce,1,1,114,
+sirarthur,1,1,117,
+prepopulates,1,1,117,repopulates
+separatorchar,1,1,122,
+freenet,1,1,122,freeze
+gconf,1,1,129,gone
+metacity,1,1,129,mentality
+maths,1,1,134,math
+davidonpda,1,1,140,
+generateds,1,1,141,generated
+filenames,1,1,143,forenames
+virtualcoin,1,1,145,
+vekja,1,3,104 153 225,vera
+isps,1,1,155,sips
+captcha,1,1,155,catch
+adminning,1,1,157,admitting
+listgenerated,1,1,157,
+readme,1,1,163,reade
+cryptocurrency,1,1,167,
+uptime,1,1,169,optime
+getdefaultdatadir,1,1,174,
+threadircseed,1,1,175,
+parg,1,1,175,part
+bitcoinfx,1,1,177,
+belownormal,1,1,178,
+glibcxx,1,1,190,
+redistributable,1,1,190,distributable
+bugfix,1,1,192,unfix
+tiago,1,1,192,iago
+faria,1,1,192,maria
+laggy,1,1,194,baggy
+pagefile,1,1,194,pageful
+devs,1,1,195,revs
+uiproject,1,1,195,project
+drupal,1,1,197,brutal
+regedit,1,1,204,reedit
+openoffice,1,1,204,
+approx,1,1,216,approve
+milkiway,1,1,231,
+aidos,1,1,231,aids
+getblockcount,1,1,241,
+getblocknumber,1,1,241,
+getconnectioncount,1,1,241,
+getgenerate,1,1,241,degenerate
+genproclimit,1,1,241,
+amortised,1,1,242,amortized
+cypherpunks,1,1,248,cyberpunks
+bitgold,1,1,248,bitolj
+infoworld,1,1,248,
+commandlinerpc,1,1,249,
+preprocess,1,1,250,reprocess
+allright,1,1,251,alright
+longerkey,1,1,251,
+nextkey,1,1,251,
+fprintf,1,1,253,print
+stdout,1,1,253,stout
+transactionally,1,1,257,transactional
+otoh,1,1,259,ooh
+workaround,1,1,264,
+publickey,1,1,271,publicity
+argc,1,1,277,arc
+argv,1,1,277,argo
+cmyapp,1,1,277,
+dgui,1,1,277,guy
+masm,1,1,279,mass
+nntp,1,1,286,not
+afaik,1,1,287,afraid
+blackeye,1,2,288 312,blacked
+libjpeg,1,1,291,
+libc,1,1,292,lib
+bstatic,1,1,299,static
+bdynamic,1,1,299,dynamic
+gthread,1,1,299,thread
+interprocess,1,1,300,
+simd,1,1,301,sid
+versioning,1,1,307,pensioning
+caddress,1,1,307,address
+creighto,1,1,311,creighton
+micropayment,1,1,316,
+defence,1,1,320,defense
+esque,1,1,323,rescue
+profiler,1,1,329,profile
+inpoints,1,1,341,pinpoints
+dropoff,1,1,343,dropout
+dereferencable,1,1,348,
+readlink,1,1,348,reading
+param,1,1,348,para
+favour,1,1,349,favor
+xeon,1,1,351,neon
+opteron,1,1,351,operon
+mthreads,1,1,357,threads
+offsetof,1,1,357,offset
+wformat,1,1,357,format
+dwin,1,1,357,win
+dnopch,1,1,357,notch
+mswud,1,1,357,mud
+msse,1,1,357,muse
+typeck,1,1,357,type
+hashblocks,1,1,360,
+inlines,1,1,360,inclines
+idealogical,1,1,363,ideological
+botnets,1,1,363,bonnets
+lockin,1,1,369,locking
+dfourwaysse,1,1,371,
+nogui,1,1,371,rogue
+redownloads,1,1,371,downloads
+ccff,1,1,375,cuff
+bcba,1,1,375,baba
+macosx,1,1,375,tacos
+hyperthreads,1,1,383,
+bnchainwork,1,1,388,
+pindexbest,1,1,388,
+nbestheight,1,1,389,
+checkblock,1,1,391,checkbook
+connectblock,1,1,391,
+walkthough,1,1,400,although
+moreso,1,1,401,mores
+zooko,1,1,409,look
+admins,1,1,411,admits
+testsafemode,1,1,416,
+includepaths,1,1,421,
+hardcoding,1,1,421,
+mmap,1,1,423,map
+iostreams,1,1,424,streams
+secblock,1,1,432,sunblock
+deallocate,1,1,432,reallocate
+optimised,1,1,442,optimized
+getminfee,1,1,444,
+createtransaction,1,1,445,
+berkeleydb,1,1,448,berkeley
+segfault,1,1,452,default
+allowiptransactions,1,1,454,
+baff,1,1,473,buff
+autodetect,1,1,473,
+shadowofharbringer,1,1,479,
+nlasttry,1,1,480,
+reorganised,1,1,485,reorganized
+hostname,1,1,487,hostage
+keypool,1,1,489,
+validateaddress,1,1,490,
+diff,1,1,491,riff
+filewall,1,1,493,firewall
+multithreaded,1,1,494,
+plaintext,1,1,495,plainest
+keypairs,1,1,495,repairs
+fromaccount,1,1,496,
+toaccount,1,1,496,account
+theiraccount,1,1,496,
+prioritising,1,1,500,prioritizing
+valuein,1,1,500,value
+txsize,1,1,500,size
+keypoololdest,1,1,501,
+flooders,1,1,502,flooder
+ntimelock,1,1,503,
+formalised,1,1,504,formalized
+threadrpcserver,1,1,506,
+pmidstate,1,1,508,misstate
+phash,1,1,508,phase
+nhashesdone,1,1,508,
+bytereverse,1,1,508,
+bandwidthwise,1,1,510,
+kbps,1,1,512,kb's
+divy,1,1,516,dive
+mtgox,1,1,516,magog
+checkblocks,1,1,517,checkbooks
+zipfile,1,1,517,misfile
+jgarzik,1,2,518 525,
+prev,1,1,519,prep
+txins,1,1,519,twins
+ctxdb,1,1,519,
+acentry,1,1,520,century
+dbenv,1,1,521,deny
+isstandard,1,1,525,standard
+txin,1,1,527,thin
+txout,1,1,527,trout
+appid,1,1,527,aphid
+timestamps,1,1,527,
+timestamping,1,1,527,
+whitelisting,1,1,528,
+cdecker,1,1,530,checker
+modernised,1,1,532,modernized
+locktime,1,1,533,longtime
+dataset,1,1,534,
+repudiable,1,1,534,reputable
+domaincoins,1,1,536,
+dtvan,1,1,538,divan
+limitfreerelay,1,1,542,
