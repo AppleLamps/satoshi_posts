@@ -1,5 +1,21 @@
 {
- "version": "protocol-1",
+ "version": "protocol-1.1-draft",
+ "status": "definitions recorded; evaluation incomplete",
+ "ready_for_confirmatory_collection": false,
+ "change_from_protocol_1": "Correct the frozen-status overclaim; definitions and measured outputs unchanged.",
+ "positive_sources": null,
+ "evaluation_implementation": null,
+ "primary_sample_size_words": null,
+ "pending_decisions": [
+  "Exact unused positive source/message IDs, provenance, inclusion rules and hashes",
+  "Matched audiences, purposes and technical roles; no unused forum positives are identified",
+  "Stable account exclusions: collection-specific W labels cannot identify writers in new collections",
+  "Primary sample length and reporting of whole-post sample overshoot",
+  "Joint feature scoring on the same sampled posts; writer weighting, ties and missing-feature policy",
+  "Spacing availability across sources; low opportunity is not absence of a habit",
+  "Bootstrap units, repetitions, seed and scope: one positive author and overlapping sample draws",
+  "Commit and hash the evaluator and completed protocol before confirmatory collection"
+ ],
  "definition_files": {
   "textutil.py": "75b3f9bece4d7cdd617510a72fd4b91387e30bd5d812c1028791aaab66b9c8ab",
   "cleaning.py": "162ff361b2e04756e34378238cb25effa13255c764da55fe4b88b3adcefff05a",
@@ -64,8 +80,8 @@
   "statement": "neither"
  },
  "scoring_rule": "For each sample: score = number of primary rate features (first five) whose rule is met, 0-5, features with too small a denominator count as not met. Two-way choices are reported per writer, not scored, because their opportunities are too sparse in 500-1,000-word samples.",
- "primary_outcome": "Area under the ROC curve of the score for held-out Satoshi samples vs samples from previously unseen writers, within the same register (e-mail vs e-mail, forum answer vs forum answer), with a 95% bootstrap interval over writers; plus per-feature AUCs and the share of unseen writers meeting each rule.",
- "success_criterion": "Lower bound of the 95% interval of the primary AUC above 0.5 in each register tested; report every register whatever the result.",
+ "primary_outcome": "Proposed, not implemented: AUC of joint sample scores within registers with unused positive text and matched negatives. Intervals require a specified dependence model: negative-writer resampling alone conditions on the selected Satoshi material; positive conversation/episode clusters are needed to represent variability across his correspondence. Overlapping sample draws are not independent replications.",
+ "success_criterion": "Proposed only, inactive until the complete protocol and evaluator are committed: lower 95% AUC bound above 0.5 in each feasible matched register; report every result.",
  "exclusions": {
   "threads_already_used": [
    5,
@@ -772,6 +788,7 @@
    "W0441",
    "W0442"
   ],
+  "writer_id_scope": "W labels are collection-specific, not stable account identifiers. Recover original account identities before excluding writers from a new collection.",
   "satoshi_text_already_used": [
    "all 543 archive posts",
    "white paper",

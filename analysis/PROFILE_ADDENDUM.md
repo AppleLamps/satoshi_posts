@@ -67,7 +67,7 @@ What the archive can and cannot do: the mix is present from the first month of t
 
 **Absent youth-forum markers** [measured]: 0 "lol", 0 "haha", 0 text smileys in surviving text (11 graphical smileys were dropped by the scraper), 0 "awesome". This is equally consistent with a professional register as with age.
 
-**Reading** [hypothesis]: an adult with professional programming experience reaching back at least to the late 1990s (MSVC6, a self-described design written "more than 2 years ago" in 2010). No birth-year estimate is given; the earlier "before roughly 1975" is withdrawn. Evidence that could narrow it: first-hand, dated references to tools, events or employers, which the archive does not contain.
+**Reading** [hypothesis]: familiarity with older development tools and an implementation history extending several years before these posts. Supporting MSVC6 in 2010 does not establish that the writer used it in the 1990s, and a design written more than two years earlier does not date a professional career. Neither a birth year nor a professional start date can be assigned from these references. Dated first-hand references to employment or earlier work would be needed.
 
 ---
 
@@ -125,7 +125,7 @@ The earlier version gave figures for these categories that were not produced by 
 
 ### 6.1 Anticipating failure and sizing the safeguard [qualitative finding; not yet tested against other developers]
 
-The most distinctive reasoning pattern in the archive is a sequence: name an assumption that users or programmers will reasonably make, show how it fails, trace the money consequence, and propose the smallest safeguard that closes it.
+A recurring reasoning pattern in the archive is a sequence: name an assumption that users or programmers will reasonably make, show how it fails, trace the money consequence, and propose a safeguard. Several examples also consider a safeguard's own failure modes. This is a qualitative observation, not a measured claim of uniqueness or of optimal safeguards.
 
 * **Accounting after reorganisations.** "Programmers are naturally inclined to want to use listtransactions like this: feed me the new transactions since I last asked, and I'll keep my own tally… This will seem to work in all regular use, but if you use the amounts for anything, it is highly exploitable" followed by a numbered list of failure cases ("When there's a block-chain reorg, it would be easy to double-count transactions") and the safeguard: "always … go back to bitcoin and ask for a current balance total … and be ready for the possibility that it can go down" (`post_523`, 2010-12-08). The follow-up states the design principle: "It doesn't seem right to have a function that seems tailor made to be used a certain obvious way, and that way is a non-obvious trap." (`post_526`).
 * **A safeguard that opens a new attack.** On the JSON-RPC password: a 50 ms delay after a failed attempt on short passwords "might be used as a DoS attack, but I figured if it's a short password, it's more important to protect against brute force password scan", with the residual leak named ("This may tell outsiders whether the password is less than 15 characters") and a user-side remedy ("If you want to close the DoS possibility, just use a password 15 characters or longer"); batched requests are cut off after one bad password "so you can't stuff it with millions of password attempts in one packet" (`post_241`, 2010-07-18). This text was hidden by the inline-code rule in the first version and is now recovered (rule R12b).
@@ -137,9 +137,9 @@ The pattern is reported from close reading, with the examples above as the evide
 
 ### 6.2 Other habits [measured]
 
-* **Conditional and scenario-based.** `if` 11.2 per 1k (control writers' median 7.2; but 15 of 44 writers reach Satoshi's level when only answers to questions are compared, so much of this is his answering role; `CONTROL_CORPUS.md`), "If you…" opening 102 sentences, worked examples with numbers, "As a thought experiment", "Think of it as".
+* **Conditional and scenario-based.** `if` 11.2 per 1k in the core archive, "If you…" opening 102 sentences, worked examples with numbers, "As a thought experiment", "Think of it as". In the answer-only comparison his medians are 12.55 `if` and 1.969 "If you…" openers per 1k, both at the 93.2nd percentile. The 15/44 and 16/44 control counts concern lower fixed thresholds, not writers reaching his actual values. Role changes threshold prevalence without explaining away his high relative rates (`CONTROL_CORPUS.md`).
 * **Quantifies by default.** About 36 numerals per 1,000 words; percentages always as `%`; multipliers as `1.7x`; "an order of magnitude" (4).
-* **Hedged predictions, flat decisions.** 264 hedges against 26 boosters, counted without overlap (91% hedges; 47 of 107 eligible contemporary writers are as hedge-heavy), with the hedges attached to predictions and other people's domains and the flat statements attached to his own code.
+* **Hedged predictions, flat decisions.** 264 hedges against 26 boosters, counted without overlap (91% hedges; 47 of 107 eligible contemporary writers meet the lower fixed 0.85 hedge-share threshold), with the hedges attached to predictions and other people's domains and the flat statements attached to his own code.
 * **Economy.** Median post 69 words, median sentence 11, 37% of paragraphs a single sentence; answers end on a commitment ("I'll look into it").
 
 ---

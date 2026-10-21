@@ -18,7 +18,8 @@ Analyzed commit: `b442311` ("remove ipynb text file"), 543 files `posts/post_1.t
 | `data/sni_posts.jsonl` | Structured HTML of each post fetched from the source site (used only to recover block boundaries) |
 | `PROFILE_ADDENDUM.md` | What the writing does and does not say about the writer (dialect, era indicators, subject knowledge, working pattern, reasoning style), each claim tagged measured or hypothesis with competing explanations |
 | `CONTROL_CORPUS.md` | Distinctiveness test against 442 other writers in the same BitcoinTalk threads, 2009-11 to 2010-12, on all text and on role-matched, equal-sized samples (`data/agg/control_population.csv`, `control_role_matched.csv`, `control_writer_features.csv`, `control_summary.json`) |
-| `PROTOCOL_NEXT_TEST.md` | Frozen definitions and evaluation procedure for a test on unseen writers, threads and held-out Satoshi text (`data/protocol/frozen_spec.json`) |
+| `PROTOCOL_NEXT_TEST.md` | Recorded feature definitions and draft future evaluation; explicitly incomplete (`data/protocol/frozen_spec.json`) |
+| `STYLE_COMPARISON.md` | Qualitative comparison of the combined profile with security-design principles, maintainer prose, and selected early cryptographic-money texts |
 | `data/control/` | Anonymized control data committed for offline reproduction: `post_counts.csv.gz` (per-post feature and opportunity counts, roles, cleaned-text SHA-256), `pages_manifest.csv` (page URLs and SHA-256), `cleaning_parity.csv` |
 | `REVISION_NOTES.md` | Every change made in revisions 2 and 3 in response to review, with the old and new values |
 | `VALIDATION_OTHER_CORPORA.md` | Cross-register validation against the white paper and the 2008–2010 mailing-list e-mails, with and without passages shared between corpora; tables in `data/agg/validation_other_corpora.csv` and `shared_passages.csv`, cleaned texts in `data/other_corpora_clean.jsonl` |
@@ -49,7 +50,7 @@ python3 06_fetch_forum_threads.py --cache /path/to/bt_cache
 python3 07_control_corpus.py --cache /path/to/bt_cache
 # 8. control comparisons A-D, offline from data/control/post_counts.csv.gz
 python3 08_control_analysis.py
-# 9. record the frozen protocol (hashes of the definition files)
+# 9. record the definition hashes and explicit draft evaluation status
 python3 09_freeze_protocol.py
 ```
 

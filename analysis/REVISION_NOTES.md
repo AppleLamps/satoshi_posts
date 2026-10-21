@@ -124,7 +124,7 @@ The control analysis is now split in two:
 * `07_control_corpus.py` builds per-post additive counts with role labels taken from thread structure (question, answer, statement).
 * `08_control_analysis.py` runs four comparisons: all text; all text in equal 1,000-word samples; declarative posts; and answers to questions in 500-word samples.
 
-Two-way choices need at least 3 uses per writer, where revision 2 needed 1. Main result: "If you…" openers reach Satoshi's rate in 14 of 136 writers (10%) on all text, but in 16 of 44 (36%) when only answers are compared, so much of that habit is his answering role. The contraction share stays at 15–19% of eligible writers in every comparison. `CONTROL_CORPUS.md`, the summary table and the fingerprint in the report now give every share as writers meeting / writers eligible.
+Two-way choices need at least 3 uses per writer, where revision 2 needed 1. At the fixed "If you…" threshold of 1.5 per 1k, 14 of 136 writers qualify on all text and 16 of 44 among answers. Revision 3 incorrectly described these as writers reaching Satoshi's actual rate and attributed much of the difference to role; revision 4 below corrects that interpretation. The contraction threshold is met by 15–19% of eligible writers in every comparison. `CONTROL_CORPUS.md`, the summary table and the fingerprint give every share as writers meeting / writers eligible.
 
 ## 5. Offline reproduction
 
@@ -135,12 +135,24 @@ Committed in `data/control/`:
 
 `08_control_analysis.py` runs from these files alone.
 
-## 6. Frozen protocol
+## 6. Recorded protocol proposal
 
-`PROTOCOL_NEXT_TEST.md` and `data/protocol/frozen_spec.json` fix the following before any new material is collected:
+Revision 3 recorded the following in `PROTOCOL_NEXT_TEST.md` and `data/protocol/frozen_spec.json` before any new quantitative material was collected:
 * the definition files, by SHA-256;
 * the primary features, thresholds, minimum material, sample sizes, seed and scoring rule;
-* the evaluation, by AUC within register on unseen writers and threads against held-out Satoshi text, with a success criterion;
+* a proposed evaluation by AUC within register on unseen writers and threads against held-out Satoshi text, with a proposed success criterion;
 * the threads and writers already used.
 
 The failure-anticipation pattern stays labelled as a qualitative finding, with the design a comparable test would need.
+
+---
+
+# Revision 4: interpretation corrections and a qualitative style comparison
+
+Changes by Codex, made directly at the user's request.
+
+* **Conditional rates survive role matching.** The 16/44 and 15/44 figures use fixed thresholds (1.5 "If you" and 9 "if" per 1k), not Satoshi's actual answer-sample medians (1.969 and 12.55). Both actual values are at the 93.2nd percentile. Removed the conclusions that role matching explains away the pattern or establishes that contractions are the sole useful candidate. Changing role, eligibility and sample length together does not estimate a causal role contribution.
+* **Career dating corrected.** MSVC6 compatibility does not establish professional experience in the 1990s. Removed that remaining unsupported start-date inference. The failure-anticipation section now describes recurrence without claiming measured distinctiveness or optimal safeguards.
+* **Protocol status corrected in both prose and generated JSON.** `protocol-1.1-draft` records the same five definition-file hashes and thresholds but declares `ready_for_confirmatory_collection=false`. Exact positives, matched audiences, joint scoring, sample length and uncertainty estimation remain unspecified. It identifies the absent unused forum positives, the private/public e-mail confound, overlapping samples, the single positive author and the collection-specific writer labels. No confirmatory test or new quantitative control collection was performed.
+* **Qualitative comparison added.** `STYLE_COMPARISON.md` maps the complete feature profile to practical security engineering and compares selected primary texts by Hal Finney, Nick Szabo and Wei Dai. It separates similarities in explanatory voice from conceptual lineage, discusses the technical context of all four `color` tokens, and reports no identity score.
+* **Measurement integrity.** No source post, cleaner, feature definition, role definition, threshold or measured aggregate was changed. The offline control analysis and quotation verification are rerun as validation; the protocol JSON is regenerated and checked for deterministic output and unchanged definition hashes.

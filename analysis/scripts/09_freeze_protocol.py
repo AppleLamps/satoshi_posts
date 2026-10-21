@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Freeze the feature definitions and evaluation procedure for the next test
-(PROTOCOL_NEXT_TEST.md) before any fresh comparison material is collected.
+"""Record definition hashes and the incomplete next-test design.
+
+This script is not an AUC evaluator or a completed preregistration.
+PROTOCOL_NEXT_TEST.md explains the unselected material and evaluation choices.
 
 Writes data/protocol/frozen_spec.json with:
   * SHA-256 of the definition files (textutil.py, cleaning.py, measures.py,
     07_control_corpus.py for the counts and roles, 08_control_analysis.py for
-    the thresholds and sampling); any later change to them invalidates the
-    freeze and must be reported as a deviation
-  * the pre-specified features, thresholds, minimum opportunity counts,
-    sample sizes, role definitions, random seed and scoring rule
+    the descriptive thresholds and sampling); changes must be reported
+  * the existing features and proposed future thresholds, minimum opportunity
+    counts, sample sizes, role definitions, random seed and scoring rule
   * the identifiers of every thread and writer already used, which the next
-    test must exclude
+    test must exclude (writer pseudonyms require the original account mapping)
+  * explicit incomplete-status fields and pending evaluation decisions
 
 Re-running the script on unchanged files reproduces the same hashes; the
 committed JSON is the reference.
@@ -26,7 +28,23 @@ def main():
     os.makedirs(os.path.join(DATA, "protocol"), exist_ok=True)
     rows = list(csv.DictReader(gzip.open(os.path.join(DATA, "control", "post_counts.csv.gz"), "rt", encoding="utf-8")))
     spec = dict(
-        version="protocol-1",
+        version="protocol-1.1-draft",
+        status="definitions recorded; evaluation incomplete",
+        ready_for_confirmatory_collection=False,
+        change_from_protocol_1="Correct the frozen-status overclaim; definitions and measured outputs unchanged.",
+        positive_sources=None,
+        evaluation_implementation=None,
+        primary_sample_size_words=None,
+        pending_decisions=[
+            "Exact unused positive source/message IDs, provenance, inclusion rules and hashes",
+            "Matched audiences, purposes and technical roles; no unused forum positives are identified",
+            "Stable account exclusions: collection-specific W labels cannot identify writers in new collections",
+            "Primary sample length and reporting of whole-post sample overshoot",
+            "Joint feature scoring on the same sampled posts; writer weighting, ties and missing-feature policy",
+            "Spacing availability across sources; low opportunity is not absence of a habit",
+            "Bootstrap units, repetitions, seed and scope: one positive author and overlapping sample draws",
+            "Commit and hash the evaluator and completed protocol before confirmatory collection",
+        ],
         definition_files={f: sha(os.path.join(HERE, f)) for f in ["textutil.py", "cleaning.py", "measures.py", "07_control_corpus.py", "08_control_analysis.py"]},
         primary_features=[
             dict(name="contracted_share", kind="rate", rule=">= 0.80", min_denominator="10 contraction choices per sample"),
@@ -47,13 +65,15 @@ def main():
         scoring_rule=("For each sample: score = number of primary rate features (first five) whose rule is met, 0-5, "
                       "features with too small a denominator count as not met. Two-way choices are reported per writer, not scored, "
                       "because their opportunities are too sparse in 500-1,000-word samples."),
-        primary_outcome=("Area under the ROC curve of the score for held-out Satoshi samples vs samples from previously unseen writers, "
-                         "within the same register (e-mail vs e-mail, forum answer vs forum answer), with a 95% bootstrap interval over writers; "
-                         "plus per-feature AUCs and the share of unseen writers meeting each rule."),
-        success_criterion="Lower bound of the 95% interval of the primary AUC above 0.5 in each register tested; report every register whatever the result.",
+        primary_outcome=("Proposed, not implemented: AUC of joint sample scores within registers with unused positive text and matched negatives. "
+                         "Intervals require a specified dependence model: negative-writer resampling alone conditions on the selected Satoshi material; "
+                         "positive conversation/episode clusters are needed to represent variability across his correspondence. "
+                         "Overlapping sample draws are not independent replications."),
+        success_criterion="Proposed only, inactive until the complete protocol and evaluator are committed: lower 95% AUC bound above 0.5 in each feasible matched register; report every result.",
         exclusions=dict(
             threads_already_used=sorted({int(r["topic"]) for r in rows}),
             writers_already_used=sorted({r["writer"] for r in rows if r["writer"] != "SATOSHI"}),
+            writer_id_scope="W labels are collection-specific, not stable account identifiers. Recover original account identities before excluding writers from a new collection.",
             satoshi_text_already_used=["all 543 archive posts", "white paper", "cryptography, bitcoin-list and p2p-research list e-mails"],
         ),
         scope_limit="Evaluation is between held-out text of known authorship and anonymous population samples. The procedure is not to be applied to score named individuals.",
