@@ -1,0 +1,15 @@
+family,document,words,shared_sentences,shared_words,closest_other_document,jaccard_6gram,example
+paper,whitepaper,3002,10,229,cryptography_1.html,0.047,A purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to anoth
+email,bitcoin-list_29.html,102,7,49,post_24,0.403,- Minimize to system tray option
+email,bitcoin-list_30.html,127,9,103,post_167,0.906,"Announcing version 0.3 of Bitcoin, the P2P cryptocurrency!"
+email,bitcoin-list_33.html,69,4,52,post_525,0.938,- Fixed a wallet.dat compatibility problem if you downgraded from 0.3.17
+email,cryptography_1.html,271,7,166,whitepaper,0.047,A purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to anoth
+email,cryptography_5.html,175,2,46,whitepaper,0.012,"Increasing hardware speed is handled: ""To compensate for increasing hardware speed and varying interest in running nodes"
+email,p2p-research_35.html,519,30,517,post_1,0.998,I've developed a new open source P2P e-cash system called Bitcoin.
+email,p2p-research_39.html,388,1,28,post_1,0.031,"Users hold the crypto keys to their own money and transact directly with each other, with the help of the P2P network to"
+forum,post_1,518,30,518,p2p-research_35.html,0.998,I've developed a new open source P2P e-cash system called Bitcoin.
+forum,post_13,95,3,25,bitcoin-list_29.html,0.127,- Minimize to system tray option
+forum,post_24,103,7,51,bitcoin-list_29.html,0.403,- Minimize to system tray option
+forum,post_167,127,9,105,bitcoin-list_30.html,0.906,"Announcing version 0.3 of Bitcoin, the P2P cryptocurrency!"
+forum,post_209,57,1,7,cryptography_5.html,0.005,The proof-of-work difficulty is currently 45.38.
+forum,post_525,65,4,57,bitcoin-list_33.html,0.938,- Fixed a wallet.dat compatibility problem if you downgraded from 0.3.17 and then upgraded again

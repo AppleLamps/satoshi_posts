@@ -22,9 +22,9 @@ tor,TOR,24
 tor,Tor,4
 irc,IRC,40
 svn,SVN,81
-json-rpc,JSON-RPC,33
+json-rpc,JSON-RPC,34
 json-rpc,json-rpc,18
-rpc,RPC,37
+rpc,RPC,38
 rpc,rpc,24
 cpu,CPU,44
 cpu,cpu,2

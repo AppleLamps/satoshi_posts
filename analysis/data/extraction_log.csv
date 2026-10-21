@@ -239,7 +239,7 @@ posts/post_237.txt,237,Bitcointalk,2010-07-18 01:59:15,Re: Bitcoin snack machine
 posts/post_238.txt,238,Bitcointalk,2010-07-18 15:12:54,Re: Source code documentation,71,exact,1.0,239,2010-07-18T15:12:54.000Z,0,0,71,True,,
 posts/post_239.txt,239,Bitcointalk,2010-07-18 16:06:16,Re: URI-scheme for bitcoin,1070,exact,1.0,240,2010-07-18T16:06:16.000Z,2,0,356,True,has_quotes,
 posts/post_240.txt,240,Bitcointalk,2010-07-18 18:58:21,Re: Bitcoin 0.3.2 released,557,exact,1.0,241,2010-07-18T18:58:21.000Z,0,0,559,True,,
-posts/post_241.txt,241,Bitcointalk,2010-07-18 20:49:22,JSON-RPC password,2600,approx,0.9995,242,2010-07-18T20:49:22.000Z,0,0,1324,True,inline_code_lines=15,delete:'\\n'->''
+posts/post_241.txt,241,Bitcointalk,2010-07-18 20:49:22,JSON-RPC password,2600,approx,0.9995,242,2010-07-18T20:49:22.000Z,0,0,2104,True,code_gloss_kept_as_prose=3;inline_code_lines=15,delete:'\\n'->''
 posts/post_242.txt,242,Bitcointalk,2010-07-18 21:24:09,Re: MSVC build & SHA-256,1160,exact,1.0,243,2010-07-18T21:24:09.000Z,0,0,1165,True,,
 posts/post_243.txt,243,Bitcointalk,2010-07-18 21:56:18,"Re: Nenolod, the guy that wants to prove Bitcoin doesn't work.",27,exact,1.0,244,2010-07-18T21:56:18.000Z,0,0,27,True,,
 posts/post_244.txt,244,Bitcointalk,2010-07-18 23:35:27,Re: Did block generation crawl to a halt?,157,exact,1.0,245,2010-07-18T23:35:27.000Z,0,0,159,True,,

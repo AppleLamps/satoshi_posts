@@ -18,6 +18,7 @@ import csv, json, math, os, re, sys, statistics
 from collections import Counter, defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import textutil as T
+import measures as M
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "..", "data")
@@ -45,8 +46,7 @@ SPELLING_PAIRS = [
 FORM_ALTERNATIVES = [
     ("e-mail", "email"), ("web site", "website"), ("on-line", "online"), ("set up", "setup"), ("log in", "login"), ("back up", "backup"), ("cannot", "can not"), ("OK", "okay"), ("ok", "Ok"), ("alright", "all right"), ("a lot", "alot"), ("bitcoin", "Bitcoin"), ("Bitcoin", "BitCoin"), ("peer-to-peer", "peer to peer"), ("p2p", "P2P"), ("double-spend", "double spend"), ("time-stamp", "timestamp"), ("proof-of-work", "proof of work"), ("e-cash", "ecash"), ("re-send", "resend"), ("re-broadcast", "rebroadcast"), ("grey", "gray"), ("anyways", "anyway"), ("till", "until"), ("'til", "until"), ("doesn't", "does not"), ("won't", "will not"), ("can't", "can not"), ("I'm", "I am"), ("it's", "it is"), ("that's", "that is"), ("there's", "there is"), ("I'll", "I will"), ("I've", "I have"), ("you're", "you are"), ("isn't", "is not"), ("don't", "do not"), ("wouldn't", "would not"), ("didn't", "did not"), ("couldn't", "could not"), ("shouldn't", "should not"), ("aren't", "are not"), ("wasn't", "was not"), ("hasn't", "has not"), ("haven't", "have not"), ("they're", "they are"), ("we're", "we are"), ("we'll", "we will"), ("it'll", "it will"), ("you'll", "you will"), ("I'd", "I would"), ("you'd", "you would"), ("it'd", "it would"), ("could've", "could have"), ("would've", "would have"), ("should've", "should have"), ("might've", "might have"), ("what's", "what is"), ("here's", "here is"), ("let's", "let us"), ("who's", "who is"), ("how's", "how is"), ("where's", "where is"), ("that'll", "that will"), ("there'll", "there will"), ("who'd", "who would"), ("they'll", "they will"), ("he's", "he is"), ("she's", "she is"), ("we've", "we have"), ("you've", "you have"), ("they've", "they have"), ("hadn't", "had not"), ("weren't", "were not"), ("mustn't", "must not"), ("needn't", "need not"), ("ain't", "is not"),
 ]
-IRREG_PP = "been|done|gone|seen|taken|given|made|known|shown|written|found|held|kept|left|lost|put|read|run|sent|set|spent|told|thought|built|bought|brought|caught|chosen|cut|dealt|drawn|driven|eaten|fallen|felt|forgotten|frozen|hidden|hit|led|meant|paid|proven|proved|sold|spoken|stolen|stuck|struck|taught|thrown|understood|won|broken|begun|become|come|hung|lent|rid|shut|split|spread|swept|torn|worn|bound|fed|laid|lit|met|overridden|rewritten|undone|beaten|bent|blown|bred|burnt|cast|dug|fit|flown|grown|let|ridden|risen|sought|shaken|shot|slid|sprung|stood|sung|sunk|swung|woken|wound|withdrawn"
-PASSIVE_RE = re.compile(r"\b(?:is|are|was|were|be|been|being|get|gets|got|gotten|getting|'s|'re)\s+(?:(?:not|never|also|already|still|just|only|being|always|usually|often|probably|then|all|also)\s+){0,2}(?:[A-Za-z]{3,}ed|" + IRREG_PP + r")\b", re.I)
+PASSIVE_RE = M.PASSIVE_RE  # canonical definition in measures.py
 EXPRESSIONS = {  # curated recurring expressions / discourse markers (case-sensitive where capitalised)
     "I think": r"\bI think\b", "I don't think": r"\bI don't think\b", "I'm not sure": r"\bI'm not sure\b", "not sure": r"\bnot sure\b",
     "I guess": r"\bI guess\b", "I suppose": r"\bI suppose\b", "I believe": r"\bI believe\b", "I wonder": r"\bI wonder\b", "I know": r"\bI know\b",
@@ -137,8 +137,10 @@ for r in recs:
     def per1k(x): return round(1000.0 * x / nw, 2) if nw else None
     cnt = Counter(toks)
     paragraphs = [p for p in re.split(r"\n\s*\n", prose) if p.strip()]
-    double_space = len(re.findall(r"[.!?][\"')]*  +[A-Z\"(]", prose))
-    single_space = len(re.findall(r"[.!?][\"')]* [A-Z\"(]", prose))
+    double_space, single_space = M.sentence_spacing(prose)
+    if_you_all, if_you_bare = M.if_you_openers(prose)
+    hed = M.lexicon_counts(prose, "hedges"); bst = M.lexicon_counts(prose, "boosters")
+    _allc, _cc, _ff = M.contractions(prose)
     row = dict(
         file=r["file"], post_id=r["post_id"], platform=r["platform"], timestamp=r["timestamp"], date=r["timestamp"][:10],
         period=period_of(r["timestamp"]), title=r["title"], is_reply=r["title"].startswith("Re:"),
@@ -173,12 +175,16 @@ for r in recs:
         c_sent_start_lower=sum(1 for s in sents if s[:1].islower()),
         c_sent_end_no_punct=sum(1 for s in sents if not re.search(r"[.!?][\"')]*$", s)),
         c_double_space_after_sentence=double_space, c_single_space_after_sentence=single_space,
-        c_contractions=len(T.CONTRACTION_RE.findall(masked)),
+        c_contractions=_allc, c_contracted_choice=_cc, c_full_form_choice=_ff,
+        c_if_you_openers=if_you_all, c_if_you_openers_bare=if_you_bare, c_verdict_openers=M.verdict_openers(prose),
+        c_hedges=sum(hed.values()), c_boosters=sum(bst.values()),
         c_passive=len(PASSIVE_RE.findall(masked)),
         c_if=cnt["if"], c_questions_sentences=sum(1 for s in sents if s.rstrip().endswith("?")),
         c_exclaim_sentences=sum(1 for s in sents if s.rstrip().endswith("!")),
         c_fragments=sum(1 for s in sents if 0 < len(T.words(s)) <= 3),
         c_list_lines=len(re.findall(r"(?m)^\s*(?:[-*•]|\d+[.)])\s", prose)),
+        c_list_num_paren=M.list_lines(prose)["num_paren"], c_list_num_dot=M.list_lines(prose)["num_dot"],
+        c_bullet_dash=M.list_lines(prose)["bullet_dash"], c_bullet_star=M.list_lines(prose)["bullet_star"],
     )
     for grp, ws in PRONOUNS.items():
         row["pron_" + grp] = sum(cnt[w] for w in ws)
@@ -268,15 +274,20 @@ write_csv("sentence_openers_2w.csv", ["first_two_words", "count", "doc_freq"], [
 
 # expressions
 rows_ = []
+# Case rule (see measures.py): an expression whose name starts with a lower-case
+# letter is matched case-insensitively (so "Obviously" counts as "obviously");
+# a capitalised name ("Sorry", "Thanks", "OK", "Good idea") is matched
+# case-sensitively and is a positional/formulaic subset.
 for name, pat in EXPRESSIONS.items():
-    rx = re.compile(pat)
+    ci = name[:1].islower()
+    rx = re.compile(pat, re.I if ci else 0)
     c = 0; d = 0
     for pid in core_ids:
         k = len(rx.findall(T.mask_urls(post_prose[pid])))
         c += k; d += 1 if k else 0
-    rows_.append((name, c, round(1000 * c / N_TOK, 3), d, round(100 * d / N_CORE, 1)))
-rows_.sort(key=lambda x: -x[1])
-write_csv("expressions.csv", ["expression", "count", "per1k_words", "doc_freq", "doc_pct"], rows_)
+    rows_.append((name, "insensitive" if ci else "sensitive", c, round(1000 * c / N_TOK, 3), d, round(100 * d / N_CORE, 1)))
+rows_.sort(key=lambda x: -x[2])
+write_csv("expressions.csv", ["expression", "case", "count", "per1k_words", "doc_freq", "doc_pct"], rows_)
 
 # spelling variants (word-bounded, case-insensitive) with doc freq, on core prose
 def count_word(w):
@@ -446,5 +457,98 @@ try:
     write_csv("unknown_words.csv", ["word", "count", "doc_freq", "post_ids", "spellchecker_suggestion"], unknown)
 except Exception as e:
     print("spellchecker unavailable:", e)
+
+
+# ----------------------------------------------------------------- spelling classes (canonical, measures.spelling)
+sc_rows = []
+for pid in sorted(core_ids):
+    sp = M.spelling(post_prose[pid])
+    for cls, toks in sp.items():
+        for tkn in toks:
+            sc_rows.append((cls, tkn, pid, core_rows[pid]["timestamp"][:10]))
+write_csv("spelling_classes.csv", ["class", "token", "post_id", "date"], sc_rows)
+sc_tot = Counter(r[0] for r in sc_rows)
+sc_docs = {c: len({r[2] for r in sc_rows if r[0] == c}) for c in sc_tot}
+
+# ----------------------------------------------------------------- canonical pooled profile per period, with edited-post sensitivity
+# post_42 is a difficulty table dated 2010-02-05 that contains entries through
+# 2010-08-26, so it was edited after posting; posts with an explicit "Edit:" /
+# "Update:" marker were also edited at an unknown later time.
+DATE_RE = re.compile(r"\b(\d{1,2})/(\d{1,2})/(20\d\d)\b")
+def later_dates(pid):
+    ts = core_rows[pid]["date"]
+    out = []
+    for m in DATE_RE.finditer(post_prose[pid]):
+        d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        if mo <= 12 and f"{y:04d}-{mo:02d}-{d:02d}" > ts:
+            out.append(f"{y:04d}-{mo:02d}-{d:02d}")
+    return out
+EDITED = {pid: "dates after timestamp up to " + max(later_dates(pid)) for pid in core_ids if later_dates(pid)}
+for pid in core_ids:
+    if re.search(r"(?m)^(?:Edit|EDIT|edit|Update|UPDATE):", post_prose[pid]):
+        EDITED.setdefault(pid, "explicit edit marker")
+# BitcoinTalk "Last edit" stamps (written by 07_control_corpus.py from the
+# live thread pages; edits by moderators such as thread moves are ignored)
+LE = os.path.join(DATA, "forum_last_edit.csv")
+LATE = set(EDITED)                          # content provably later than the timestamp, or edit time unknown
+if os.path.exists(LE):
+    import datetime as _dt
+    for row in csv.DictReader(open(LE, encoding="utf-8")):
+        pid = int(row["post_id"])
+        if pid in core_ids and (row["edited_by"] or "").lower() in ("", "satoshi"):
+            posted = _dt.datetime.fromisoformat(row["forum_posted"]); edited = _dt.datetime.fromisoformat(row["forum_last_edit"])
+            lag_h = (edited - posted).total_seconds() / 3600
+            EDITED[pid] = (EDITED[pid] + "; " if pid in EDITED else "") + f"forum last edit {row['forum_last_edit']} ({lag_h:.1f} h after posting)"
+            if lag_h > 24:
+                LATE.add(pid)
+            elif pid in LATE and "explicit edit marker" == EDITED[pid].split(";")[0]:
+                LATE.discard(pid)          # an Edit: marker whose stamp shows a same-day edit
+write_csv("edited_posts.csv", ["post_id", "timestamp", "edited_more_than_24h_later_or_unknown", "reason"], [(p, core_rows[p]["timestamp"], p in LATE, EDITED[p]) for p in sorted(EDITED)])
+VARIANTS = (("all posts", set()), ("without posts edited >24h later", LATE), ("without any edited post", set(EDITED)))
+PROFILE_KEYS = ["documents", "words", "mean_sentence_len", "contractions_per1k", "contracted_share", "comma_per1k", "colon_per1k", "paren_per1k",
+                "question_per1k", "exclaim_per1k", "the_per1k", "I_per1k", "you_per1k", "if_per1k", "will_per1k", "will_bare_per1k", "would_per1k",
+                "hedges_per1k", "boosters_per1k", "passive_per_sentence", "double_space_share"]
+sens_rows = []
+for variant, excl in VARIANTS:
+    groups = defaultdict(list)
+    for pid in sorted(core_ids - excl):
+        groups[core_rows[pid]["period"]].append(post_prose[pid])
+    for g in sorted(groups):
+        pr = M.profile(groups[g])
+        sens_rows.append([variant, g] + [pr[k] for k in PROFILE_KEYS])
+write_csv("compare_period_canonical.csv", ["variant", "period"] + PROFILE_KEYS, sens_rows)
+
+# ----------------------------------------------------------------- affect and topic vocabulary by period
+aff_rows, aff_match = [], []
+for variant, excl in VARIANTS:
+    groups = defaultdict(list)
+    for pid in sorted(core_ids - excl):
+        groups[core_rows[pid]["period"]].append(pid)
+    for g in sorted(groups):
+        nw_g = sum(core_rows[p]["n_words"] for p in groups[g])
+        tot_g = Counter(); docs_g = Counter()
+        for p in groups[g]:
+            am = M.affect_matches(post_prose[p])
+            for k, v in am.items():
+                tot_g[k] += len(v); docs_g[k] += bool(v)
+                if variant == "all posts":
+                    for w in v:
+                        aff_match.append((k, w, p, core_rows[p]["date"]))
+        aff_rows.append([variant, g, len(groups[g]), nw_g] + [x for k in M.AFFECT for x in (tot_g[k], round(1000 * tot_g[k] / nw_g, 2) if nw_g else None, docs_g[k])])
+write_csv("affect_by_period.csv", ["variant", "period", "posts", "words"] + [f"{k}_{x}" for k in M.AFFECT for x in ("count", "per1k", "posts")], aff_rows)
+write_csv("affect_matches.csv", ["category", "word", "post_id", "date"], aff_match)
+
+# profile lexicons (measures.PROFILE_LEXICONS): count, posts, post ids
+pl_rows = []
+for k in M.PROFILE_LEXICONS:
+    per = {pid: M.profile_lexicon_counts(post_prose[pid])[k] for pid in sorted(core_ids)}
+    hit = [p for p, v in per.items() if v]
+    pl_rows.append((k, sum(per.values()), len(hit), " ".join(map(str, hit[:40]))))
+write_csv("profile_counts.csv", ["lexicon", "count", "posts", "post_ids_first_40"], pl_rows)
+
+json.dump(dict(spelling_class_tokens=dict(sc_tot), spelling_class_posts=sc_docs, edited_posts=EDITED, edited_late=sorted(LATE),
+               canonical_profile_core=M.profile([post_prose[p] for p in sorted(core_ids)]),
+               canonical_profile_bitcointalk=M.profile([post_prose[p] for p in sorted(core_ids) if core_rows[p]["platform"] == "Bitcointalk"])),
+          open(os.path.join(AGG, "canonical_summary.json"), "w"), indent=1)
 
 print("core posts", N_CORE, "tokens", N_TOK, "types", len(ALL_TOK))

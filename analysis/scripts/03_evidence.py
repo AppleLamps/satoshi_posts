@@ -19,6 +19,7 @@ always a literal substring of the repo file.
 import csv, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import textutil as T
+import measures as M
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -66,8 +67,8 @@ FINDINGS = [
     ("F12", "Double hyphen used as a dash (no em dash anywhere)", r"[^-\n]{20}(?<!-)--(?!-)[^-\n]{20}", 6, None),
     ("F13", "Ellipsis for trailing thought", r"[^.\n]{20}\.{3}[^.\n]{0,25}", 8, None),
     ("F14", "Exclamation marks concentrated in release announcements and thanks", r"[^!\n]{25}![^\n]{0,10}", 10, None),
-    ("F15", "British spellings", r"(?<![A-Za-z])(?:optimisation|optimised|colour|grey|favour|neighbour|defence|labelled|labelling|fulfil|maths|analysed|formalised|prioritising|amortised|reorganised|modernised|liberalising|decentralised)(?![A-Za-z])", 40, None),
-    ("F16", "American spellings", r"(?<![A-Za-z])(?:color|realize|realized|criticized|optimized|optimization|decentralized|gotten|minimize)(?![A-Za-z])", 40, None),
+    ("F15", "Non-US spellings (-ise/-isation/-yse, -our, grey, defence, maths, labelled, fulfil)", r"(?<![A-Za-z])(?:optimisation|optimised|colour|grey|favour|neighbour|defence|labelled|labelling|fulfil|maths|analysed|formalised|prioritising|amortised|reorganised|modernised|liberalising|decentralised)(?![A-Za-z])", 40, None),
+    ("F16", "-ize forms (American or Oxford British) and US-only forms (color, gotten)", r"(?<![A-Za-z])(?:color|realize|realized|criticized|optimized|optimization|optimizations|decentralized|gotten|generalizes|standardized|standardizing|summarize|recognize|serialize|serialization|internationalization|minimized|initialize)(?![A-Za-z])", 40, None),
     ("F17", "'towards' preferred over 'toward'", r"\b(?:towards|toward)\b", 12, None),
     ("F18", "Misspellings and slips", r"(?<![A-Za-z'])(?:walkthough|idealogical|easer|Allright|filewall|generateds|divy|moreso|lets go|lets say)(?![A-Za-z])", 12, None),
     ("F19", "Term formation: 'block chain' as two words, hyphenated 'double-spend' and 'proof-of-work', lower-case 'bitcoin'", r"\b(?:block chain|double-spend\w*|proof-of-work|e-mail)\b", 14, None),
@@ -88,6 +89,20 @@ FINDINGS = [
     ("F36", "Passive constructions (moderate; 'is designed', 'was merged', 'be trusted')", r"\b(?:is|are|was|were|be|been)\s+(?:not\s+)?(?:designed|merged|trusted|needed|required|accepted|rejected|released|uploaded|fixed|confirmed|included|spent|sent|received|broadcast|checked|stored|generated|found|intended|limited)\b[^.\n]{0,40}", 10, None),
 ]
 
+# Where measures.py defines the feature, the reported count comes from that
+# canonical function (so the report, post_features.csv and the validation
+# tables agree); the regex above is then used only to pick examples.
+CANONICAL = {
+    "F01": lambda t: M.sentence_spacing(t)[0],
+    "F05": lambda t: M.if_you_openers(t)[0],
+    "F07": M.verdict_openers,
+    "F09": lambda t: M.quote_punctuation(t)[0],
+    "F09b": lambda t: M.quote_punctuation(t)[1],
+    "F10": lambda t: M.list_lines(t)["num_paren"] + M.list_lines(t)["bullet_dash"],
+    "F15": lambda t: len(M.spelling(t)["non_us"]),
+    "F16": lambda t: len(M.spelling(t)["ize"]) + len(M.spelling(t)["us_only"]) + len(M.spelling(t)["gotten"]),
+    "F06": lambda t: sum(M.lexicon_counts(t, "hedges")[k] for k in ("I think", "I'm not sure", "I don't think", "I guess")),
+}
 rows = []
 summary = {}
 for fid, label, pat, maxn, platform in FINDINGS:
@@ -98,9 +113,11 @@ for fid, label, pat, maxn, platform in FINDINGS:
             continue
         pr = prose(r)
         ms = list(rx.finditer(pr))
+        k = CANONICAL[fid](pr) if fid in CANONICAL else len(ms)
+        if k:
+            total += k; docs += 1
         if not ms:
             continue
-        total += len(ms); docs += 1
         for m in ms:
             examples.append((r, m.group(0)))
     # spread examples across the corpus: take evenly spaced picks
@@ -109,6 +126,8 @@ for fid, label, pat, maxn, platform in FINDINGS:
         step = max(1, len(examples) // maxn)
         picks = examples[::step][:maxn]
     stat = f"count={total}; posts={docs}; per1k_words={1000*total/N_WORDS:.2f}" if not platform else f"count={total}; posts={docs} (platform={platform})"
+    if fid in CANONICAL:
+        stat += "; count from measures.py"
     summary[fid] = (label, total, docs)
     for r, span in picks:
         loc = locate(r["post_id"], span)

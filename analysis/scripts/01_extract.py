@@ -51,6 +51,9 @@ Extraction rules (documented in analysis/README.md):
       flagged disputed_authorship and excluded from the author-wide statistics;
       the archive's own timestamp (2014-03-06 00:00:00) is a placeholder, the
       source site gives 2014-03-07T01:17Z.
+  R12b A code line of the form "code  -- explanation" keeps the explanation
+       (5+ words after ' -- ') as the author's prose; only the code part is
+       labelled inline_code.
   R12 Lines inside the author's own prose that look like code or shell commands
       (4+ leading spaces, or shell/C++ patterns) are labelled inline_code and
       excluded from prose statistics; the count is logged per post.
@@ -185,6 +188,8 @@ def strip_signature(segs, platform):
 
 CODE_LINE_RE = re.compile(r"^(?: {4,}\S|sudo |cd |make\b|tar -|mkdir |ldconfig|\.\./configure|LIBS=|#|-l |-Wl|\$ |svn |git |apt-get|wget |curl |export |chmod |\./|\+\s|gdb |bt$|run$|[A-Za-z_][A-Za-z0-9_:<>.\[\]-]*\s*\(.*\)\s*;|.*\)\s*;\s*(?://.*)?$|.*;\s*//.*$|.*\bwx[A-Z]\w*\s*[|)]|\s*[{}]\s*$|//|\s*(?:if|else if|while|for)\s*\(.*\)\s*$|[A-Za-z_][A-Za-z0-9_]*\s*=\s*[^=].*;\s*$|(?:bitcoind?|gdb)\s+-|\w+\s*(?:<<|>>)\s*\w+;|.*\(\s*$|.*\bstr[A-Z]\w+.*;|\s*\d+\)\s+\w+\(.*\)\s*;|.*\\n\s*$|[\w.\\/]+\.(?:cpp|h|dat|exe|dll|txt|conf|po|mo)\s*$|\(\s*wait for)")
 
+GLOSS_RE = re.compile(r"\s--\s+(\S.*)$")
+
 def apply_overrides(segs, rec):
     flags = set()
     pid = rec["post_id"]
@@ -217,22 +222,35 @@ def apply_overrides(segs, rec):
     if pid == 543:
         flags.add("disputed_authorship")
     # inline code lines
-    new, n_code_lines = [], 0
+    new, n_code_lines, n_gloss = [], 0, [0]
     for s in segs:
         if s["type"] != "own" or not CODE_LINE_RE.search(s["text"]) and "\n" not in s["text"]:
             new.append(s); continue
         buf_kind, buf = None, []
         for line in s["text"].split("\n"):
             kind = "inline_code" if CODE_LINE_RE.match(line) else "own"
+            gloss = None
             if kind == "inline_code":
                 n_code_lines += 1
+                # R12b: a code line followed by " -- " and an explanation of 5+
+                # words keeps the explanation as the author's prose
+                gm = GLOSS_RE.search(line)
+                if gm and len(re.findall(r"[A-Za-z]+", gm.group(1))) >= 5:
+                    gloss = gm.group(1); line = line[:gm.start(1)]
+                    n_gloss[0] += 1
             if kind != buf_kind and buf:
                 new.append({"type": buf_kind, "text": "\n".join(buf) + "\n"}); buf = []
             buf_kind = kind; buf.append(line)
+            if gloss:
+                new.append({"type": "inline_code", "text": "\n".join(buf)})
+                new.append({"type": "own", "text": gloss + "\n"})
+                buf_kind, buf = None, []
         if buf:
             new.append({"type": buf_kind, "text": "\n".join(buf)})
     if n_code_lines:
         flags.add(f"inline_code_lines={n_code_lines}")
+    if n_gloss[0]:
+        flags.add(f"code_gloss_kept_as_prose={n_gloss[0]}")
     return new, flags
 
 def main():

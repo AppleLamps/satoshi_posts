@@ -1,0 +1,32 @@
+{
+ "control_posts": 5736,
+ "control_writers": 442,
+ "control_words": 423409,
+ "eligible_writers": 136,
+ "min_words": 500,
+ "satoshi_words": 47898,
+ "combined_tests": {
+  "punctuation_and_spacing": {
+   "habits": [
+    "double_space_share",
+    "semicolon_per1k",
+    "em_en_dash_or_double_hyphen_per1k",
+    "exclaim_per1k",
+    "contracted_share"
+   ],
+   "writers_measurable": 120,
+   "writers_matching_all": 2
+  },
+  "most_distinctive_frequent": {
+   "habits": [
+    "double_space_share",
+    "contracted_share",
+    "if_per1k",
+    "if_you_openers_per1k"
+   ],
+   "writers_measurable": 120,
+   "writers_matching_all": 0
+  }
+ },
+ "satoshi_last_edit_stamps": 105
+}

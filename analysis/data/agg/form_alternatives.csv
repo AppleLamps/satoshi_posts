@@ -20,20 +20,20 @@ e-cash,1,1,ecash,0,0
 re-send,0,0,resend,1,1
 re-broadcast,1,1,rebroadcast,3,2
 grey,2,2,gray,0,0
-anyways,0,0,anyway,12,12
+anyways,0,0,anyway,13,13
 till,0,0,until,46,38
 'til,0,0,until,46,38
 doesn't,88,76,does not,13,10
 won't,26,23,will not,5,5
-can't,73,61,can not,0,0
+can't,74,62,can not,0,0
 I'm,67,58,I am,3,3
-it's,157,116,it is,19,16
+it's,161,117,it is,19,16
 that's,39,37,that is,10,10
 there's,48,45,there is,9,9
 I'll,36,36,I will,8,8
 I've,31,30,I have,23,21
 you're,75,55,you are,4,4
-isn't,22,22,is not,24,22
+isn't,23,23,is not,24,22
 don't,125,101,do not,5,5
 wouldn't,26,23,would not,5,5
 didn't,33,33,did not,1,1
@@ -46,7 +46,7 @@ haven't,22,22,have not,1,1
 they're,21,21,they are,5,5
 we're,13,13,we are,4,4
 we'll,8,7,we will,0,0
-it'll,21,20,it will,8,7
+it'll,22,21,it will,8,7
 you'll,8,8,you will,1,1
 I'd,12,11,I would,8,8
 you'd,17,14,you would,13,12

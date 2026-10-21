@@ -1,7 +1,7 @@
 ngram,count,doc_freq
 in the,173,128
 of the,160,110
-if you,152,119
+if you,153,119
 to the,129,106
 would be,122,91
 to be,94,81
@@ -9,7 +9,7 @@ it would,91,73
 need to,76,69
 you can,73,65
 with the,72,61
-to do,70,59
+to do,71,60
 have to,69,55
 the same,65,50
 on the,65,60
@@ -21,13 +21,13 @@ all the,55,49
 it to,55,49
 i think,54,47
 is the,54,47
+json rpc,52,36
 to make,51,47
 bitcoin address,51,33
-json rpc,51,36
 and the,50,45
 to get,50,48
 to use,47,42
-this is,46,43
+this is,47,44
 the block,46,36
 you have,45,42
 at the,44,39
@@ -38,17 +38,17 @@ in a,42,39
 to a,41,37
 if the,40,34
 i don't,39,39
+want to,39,35
 will be,39,34
 a new,38,30
-want to,38,35
 the next,37,31
 from the,37,28
 have a,37,34
+as a,36,31
 you could,36,32
 that would,36,33
 should be,36,33
 a lot,35,29
-as a,35,30
 could be,34,31
 it doesn't,34,33
 that the,34,29
@@ -66,6 +66,7 @@ it is,31,26
 there are,31,28
 to have,31,29
 more than,31,29
+it's a,31,28
 if you're,31,27
 going to,30,27
 it can,30,28
@@ -81,8 +82,8 @@ on a,28,25
 a block,28,25
 you don't,28,26
 a good,28,26
+if it's,28,26
 a few,28,26
-it's a,28,27
 with a,27,26
 it has,27,25
 when you,27,26
@@ -90,13 +91,12 @@ the bitcoin,27,22
 command line,27,20
 on linux,27,21
 a transaction,27,21
+do you,27,25
 as the,26,24
 number of,26,20
 the time,26,22
-do you,26,24
 back to,25,21
 the only,25,23
-if it's,25,25
 is not,25,23
 blk dat,25,18
 to keep,24,21
@@ -109,11 +109,11 @@ make it,23,21
 the new,23,21
 i have,23,21
 there's a,23,21
+but i,23,22
 we need,23,22
+has a,23,21
 into the,22,21
 the other,22,21
-but i,22,22
-has a,22,20
 lot of,21,17
 the last,21,21
 the problem,21,20
@@ -124,6 +124,7 @@ the database,20,13
 of work,20,16
 the main,20,19
 don't have,20,20
+it with,20,18
 the way,20,18
 out of,20,18
 time to,20,19
@@ -131,7 +132,6 @@ use the,20,19
 transaction fee,20,15
 when the,19,17
 a bitcoin,19,17
-it with,19,17
 on windows,19,18
 which is,19,18
 get the,19,18
@@ -139,6 +139,7 @@ not sure,19,19
 it on,19,18
 but it,19,19
 be able,19,18
+the rest,19,14
 and it,19,19
 must be,18,15
 but the,18,18
@@ -146,6 +147,7 @@ the status,18,16
 it and,18,18
 of it,18,16
 the current,18,15
+so you,18,18
 is that,18,18
 if they,18,15
 where the,18,16
@@ -157,11 +159,10 @@ that it,18,18
 to add,18,17
 has to,18,18
 you would,18,16
-the rest,18,13
 version of,18,16
 it does,18,17
+use a,17,16
 there was,17,15
-so you,17,17
 bitcoin addresses,17,12
 to connect,17,12
 using the,17,17
@@ -178,7 +179,6 @@ you should,17,16
 upgrade to,17,13
 was a,17,15
 it the,16,15
-use a,16,15
 about the,16,16
 the old,16,16
 to generate,16,15
@@ -239,8 +239,10 @@ send to,14,11
 is still,14,14
 the recipient,14,11
 you use,14,14
+you want,14,12
 the address,14,13
 that's a,14,14
+less than,14,12
 the code,14,13
 doesn't have,14,13
 would still,14,14
@@ -249,6 +251,7 @@ for this,14,13
 be nice,14,13
 to work,14,12
 can get,14,14
+the right,14,13
 be the,14,13
 is there,14,12
 on bit,14,9
@@ -274,7 +277,6 @@ can still,13,13
 still be,13,13
 not be,13,13
 ip address,13,9
-you want,13,11
 if someone,13,12
 keep it,13,13
 it will,13,12
@@ -285,7 +287,6 @@ should have,13,13
 bitcoin is,13,11
 if there's,13,12
 what it,13,11
-the right,13,12
 of them,13,12
 url url,13,10
 to that,13,9
@@ -293,12 +294,14 @@ to go,13,13
 that's the,13,13
 then you,13,13
 to send,13,12
+you can't,13,12
 at all,13,13
 and you,13,13
 the future,13,12
 something like,13,13
 the release,13,11
 the json,13,9
+you think,13,13
 but not,13,13
 in it,13,12
 that if,13,12
@@ -318,7 +321,6 @@ it looks,12,12
 the case,12,10
 even if,12,12
 you still,12,12
-you can't,12,11
 then the,12,12
 and a,12,12
 data is,12,8
@@ -329,7 +331,6 @@ can use,12,11
 up the,12,11
 if a,12,12
 makes it,12,11
-you think,12,12
 know what,12,11
 kind of,12,12
 like this,12,11
@@ -348,13 +349,13 @@ you were,11,11
 i've been,11,10
 can't be,11,11
 the initial,11,9
-less than,11,11
 i haven't,11,11
 it must,11,10
 a different,11,10
 the ui,11,10
 it gets,11,11
 looks like,11,11
+be used,11,11
 the file,11,8
 changes to,11,11
 a small,11,10
@@ -414,7 +415,6 @@ the wallet,10,8
 a payment,10,10
 long as,10,9
 work on,10,9
-be used,10,10
 be something,10,10
 it might,10,10
 a bit,10,8
@@ -424,12 +424,14 @@ of your,10,10
 it just,10,10
 it from,10,9
 but it's,10,10
+might be,10,9
 the server,10,8
 not the,10,10
 the size,10,9
 so i,10,10
 makefile unix,10,8
 thanks for,10,10
+a single,10,10
 the fee,10,6
 it's only,10,10
 so they,10,10
@@ -485,7 +487,6 @@ at a,9,8
 time you,9,9
 sending by,9,8
 to include,9,9
-might be,9,8
 that could,9,9
 because it,9,9
 most of,9,9
@@ -498,7 +499,6 @@ on svn,9,9
 at once,9,9
 it it's,9,9
 code that,9,9
-a single,9,9
 in your,9,8
 can see,9,9
 they can,9,8
@@ -569,6 +569,7 @@ as it,8,8
 do this,8,8
 of wxwidgets,8,5
 to one,8,8
+the password,8,6
 the x,8,4
 to help,8,8
 i will,8,8
@@ -620,6 +621,7 @@ how it,7,7
 and get,7,7
 of users,7,6
 way for,7,7
+it's more,7,7
 new bitcoin,7,7
 you're using,7,6
 for it,7,7
@@ -659,6 +661,7 @@ sha is,7,6
 and see,7,7
 of connections,7,7
 a while,7,7
+in one,7,7
 the list,7,6
 you may,7,7
 where it,7,7
@@ -668,7 +671,6 @@ put a,7,7
 you didn't,7,7
 it won't,7,6
 that's not,7,7
-the password,7,6
 shouldn't be,7,7
 or something,7,7
 do that,7,7
@@ -727,6 +729,7 @@ at any,7,7
 let me,7,7
 check that,7,7
 a double,7,3
+a password,7,3
 by a,7,6
 http authentication,7,7
 dat and,7,7
@@ -762,7 +765,6 @@ they are,6,6
 a week,6,5
 or if,6,6
 could have,6,6
-it's more,6,6
 where i,6,6
 find a,6,5
 you must,6,5
@@ -825,7 +827,6 @@ add the,6,5
 go through,6,6
 any of,6,5
 and only,6,6
-in one,6,6
 any time,6,5
 up a,6,6
 be hard,6,6
@@ -878,6 +879,7 @@ need a,6,6
 just the,6,6
 a simple,6,6
 how much,6,6
+what do,6,5
 first post,6,6
 that only,6,6
 something in,6,6
@@ -920,6 +922,7 @@ showing the,6,6
 khash s,6,4
 database log,6,3
 the previous,6,5
+is this,6,6
 can find,6,6
 version number,6,5
 this version,6,6
@@ -933,6 +936,7 @@ once and,6,6
 a release,6,4
 me know,6,6
 the key,6,6
+away the,6,6
 looking for,6,5
 your blk,6,5
 it but,6,6
@@ -940,7 +944,6 @@ you know,6,6
 to write,6,6
 to wait,6,5
 important security,6,5
-a password,6,3
 it that,6,6
 settings file,6,2
 if an,6,6
@@ -1015,6 +1018,7 @@ with version,5,4
 bitcoin directory,5,5
 circulation is,5,2
 blocks the,5,5
+is so,5,5
 because you,5,5
 of this,5,5
 will not,5,5
@@ -1053,6 +1057,7 @@ what if,5,3
 that you're,5,5
 i want,5,5
 connecting to,5,5
+if one,5,5
 doesn't know,5,4
 are already,5,5
 error message,5,4
@@ -1126,7 +1131,6 @@ we are,5,5
 it working,5,4
 version i,5,4
 or two,5,5
-what do,5,4
 old one,5,5
 full size,5,3
 down to,5,5
@@ -1196,10 +1200,10 @@ though it,5,5
 this point,5,5
 received payments,5,4
 are the,5,5
+thing to,5,5
 log files,5,2
 this problem,5,5
 built it,5,5
-is this,5,5
 faster on,5,5
 without irc,5,1
 the version,5,5
@@ -1216,7 +1220,6 @@ was not,5,5
 your chances,5,3
 that and,5,5
 what is,5,5
-away the,5,5
 see url,5,5
 chance of,5,5
 it you,5,5
@@ -1354,7 +1357,6 @@ when a,4,4
 it's easy,4,3
 to say,4,4
 port forwarding,4,3
-is so,4,4
 need it,4,4
 think it's,4,4
 data in,4,3
@@ -1415,7 +1417,6 @@ in practice,4,4
 wallet file,4,2
 then they,4,3
 money in,4,4
-if one,4,4
 again and,4,4
 more like,4,4
 good point,4,4
@@ -1423,6 +1424,7 @@ have already,4,4
 network and,4,4
 them and,4,4
 very much,4,4
+a short,4,3
 much as,4,4
 transaction you,4,4
 against the,4,4
@@ -1442,6 +1444,7 @@ the customer,4,2
 do all,4,4
 that case,4,4
 a hash,4,4
+brute force,4,4
 was getting,4,3
 number is,4,4
 but no,4,4
@@ -1572,6 +1575,7 @@ wonder if,4,3
 are other,4,4
 lower than,4,4
 domain name,4,3
+all that,4,4
 the trouble,4,4
 just as,4,4
 point is,4,4
@@ -1654,7 +1658,6 @@ at this,4,4
 is much,4,4
 must have,4,4
 too late,4,4
-thing to,4,4
 to test,4,4
 to look,4,4
 all your,4,4
@@ -1737,6 +1740,8 @@ that's what,4,4
 if this,4,4
 re enable,4,4
 eventually be,4,3
+dos attack,4,4
+multiple invocation,4,2
 pw bitcoinaddress,4,1
 faster with,4,3
 slower than,4,3
@@ -2110,7 +2115,6 @@ thought it,3,3
 and use,3,3
 in parallel,3,3
 message in,3,3
-brute force,3,3
 for bit,3,2
 compile and,3,3
 error in,3,3
@@ -2181,6 +2185,7 @@ the lines,3,3
 x version,3,2
 i'm attaching,3,3
 thank you,3,3
+is probably,3,3
 it shouldn't,3,3
 be too,3,3
 too hard,3,3
@@ -2328,6 +2333,7 @@ e bay,3,1
 the exchange,3,2
 conventional payment,3,3
 prio min,3,2
+this the,3,3
 normal to,3,1
 services like,3,1
 for free,3,3
@@ -2357,7 +2363,6 @@ have many,3,3
 lr pecunix,3,1
 would give,3,3
 to all,3,3
-all that,3,3
 worth the,3,3
 small amounts,3,2
 get in,3,3
@@ -2498,6 +2503,7 @@ include the,3,3
 german dutch,3,3
 special case,3,3
 nodes only,3,3
+whether the,3,3
 a template,3,3
 or higher,3,3
 any new,3,3
@@ -2708,6 +2714,7 @@ point to,3,2
 place where,3,3
 of an,3,3
 them this,3,3
+never used,3,2
 in blocks,3,3
 someone has,3,3
 available now,3,3
@@ -2730,6 +2737,9 @@ switch is,3,3
 idea for,3,3
 warning if,3,3
 run bitcoind,3,3
+to protect,3,3
+than if,3,3
+a bad,3,3
 pw label,3,1
 have any,3,3
 like we,3,3
@@ -2775,7 +2785,6 @@ i'll change,3,3
 next time,3,3
 conf file,3,1
 in their,3,2
-multiple invocation,3,1
 can't remember,3,3
 status for,3,1
 work if,3,2
@@ -2842,7 +2851,6 @@ dust spam,3,3
 for smaller,3,3
 the top,3,3
 to dos,3,2
-dos attack,3,3
 to reduce,3,3
 way if,3,3
 types of,3,3
@@ -2991,11 +2999,3 @@ detect whether,3,3
 model number,3,2
 send your,3,3
 library is,3,1
-sent by,3,3
-internal version,3,3
-payments until,3,3
-is specified,3,3
-rpc connections,3,3
-kb kb,3,1
-a unconfirmed,3,2
-unconfirmed transaction,3,2

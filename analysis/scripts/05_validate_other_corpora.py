@@ -11,13 +11,38 @@ Cleaning rules for emails (same spirit as 01_extract.py):
     rule ('-----' line, 'The Cryptography Mailing List', 'Unsubscribe', 'This
     SF.net email', '_____') are removed
   * code-looking lines (same regex as 01_extract.py) are removed
-Cleaning rules for the white paper:
-  * pdftotext (raw mode); drop everything from the 'References' heading
-  * drop the title block, section headings, figure captions/diagram text,
-    formula lines (lines dominated by symbols, single letters, '=' or digits),
-    page numbers, and the AppendixC-style code; keep running prose paragraphs
-Features are computed with the same textutil tokeniser/sentence splitter and
-the same regexes as 02_features.py, pooled per corpus, and written to
+Cleaning rules for the white paper (pdftotext -raw, processed line by line):
+  W1 everything from the line 'References' onward is dropped
+  W2 title block (title, author, e-mail, URL), section headings ('4. Proof-of-Work')
+     and page numbers are dropped; the 'Abstract.' label is removed
+  W3 the C code listing is dropped (lines with { or }, ending in ';', or
+     starting with a C type)
+  W4 formula and result-table lines are dropped: definitions ('p = ...'),
+     lines with a mathematical symbol unless they carry eight or more words
+     of prose ('80 bytes * 6 * 24 * 365 = 4.2MB per year. With ...'), and
+     lines with fewer than three alphabetic words (except a
+     short word-only line that ends an unfinished sentence, e.g. 'ownership.')
+  W5 diagram labels and figure captions are dropped: a line that does not
+     continue an unfinished sentence, has no sentence-final punctuation, and
+     either has fewer than six words or is mostly capitalised words
+     ('Transactions Hashed in a Merkle Tree'); also any short line ending in
+     ' ...' ('Item Item ...', 'Tx Tx ...')
+  W6 a line ending in '-' is joined to the next without a space (pdftotext
+     wraps 'proof-of-work' as 'proof-' + 'of-work'); other wrapped lines are
+     joined with a space
+  W7 numbered steps ('1) New transactions ...') stay on their own lines, so the
+     list detector sees them, and a paragraph break follows the list
+Shared passages: the same text was sometimes published in more than one
+corpus (the paper's abstract in the first cryptography e-mail; the v0.1
+announcement on all three lists and on the P2P Foundation; release notes on
+both the bitcoin-list and the forum). A sentence of a comparison corpus is
+marked SHARED when it has 5+ words and at least half of its 6-word shingles
+(or, under 6 words, the whole normalised sentence) also occur in a different
+source family (paper, e-mail, forum). Every corpus is reported twice: with all
+text, and with shared sentences removed ('independent'). Overlap per document
+is written to data/agg/shared_passages.csv.
+Features are computed with measures.profile(), the same function used for the
+forum tables, pooled per corpus, and written to
 analysis/data/agg/validation_other_corpora.csv.
 
 Usage: python3 05_validate_other_corpora.py --cache DIR  (DIR holds emails/*.html and whitepaper.pdf)
@@ -75,78 +100,82 @@ def unwrap(body):
         paras.append("\n".join(out))
     return "\n\n".join(paras)
 
+MATH_CHARS = set("=<>∑∞−⋅≤≥λ∏√±×÷")
 def clean_whitepaper(pdf):
-    txt = subprocess.run(["pdftotext", "-raw", pdf, "-"], capture_output=True, text=True).stdout
-    txt = txt.split("\nReferences\n")[0]
-    keep = []
-    for line in txt.split("\n"):
+    raw = subprocess.run(["pdftotext", "-raw", pdf, "-"], capture_output=True, text=True).stdout.replace("\f", "")
+    lines = raw.split("\n")
+    if "References" in [l.strip() for l in lines]:
+        lines = lines[:[l.strip() for l in lines].index("References")]          # W1
+    kept = []                                                                     # (text, is_list_item)
+    clean_whitepaper.dropped = []
+    def ends_sentence(t): return bool(re.search(r"[.!?:]$", t))
+    for line in lines:
         st = line.strip()
-        if not st: keep.append(""); continue
-        if re.match(r"^\d+\.\s+[A-Z][A-Za-z -]+$", st): continue          # section headings
-        if re.match(r"^(Bitcoin: A Peer-to-Peer|Satoshi Nakamoto|satoshin@|www\.bitcoin\.org|Abstract\.)", st):
-            if st.startswith("Abstract."): keep.append(st[len("Abstract."):].strip()); 
-            continue
-        if re.fullmatch(r"\d+", st): continue                               # page numbers
-        letters = sum(c.isalpha() for c in st)
-        if letters < 0.6 * len(st.replace(" ", "")): continue               # formulas, diagrams, tables
-        if re.match(r"^(Block|Tx|Hash|Prev Hash|Nonce|Root Hash|Owner \d|Public Key|Signature|Verify|Sign|Item|Hash\d+|Timestamp|Root|Transactions Hashed|Header|Longest Proof-of-Work Chain|Merkle Branch|Block Header)\b", st): continue
-        if re.match(r"^(#include|double |int |return|\{|\}|for \(|if \(|printf|AttackerSuccessProbability|lambda|sum|poisson|q=|z=|P=|p=)", st): continue
-        if re.search(r"\b(qz|z=\d|q=0\.\d|P=\d|P < 0\.\d)\b", st): continue
-        keep.append(st)
-    body = "\n".join(keep)
-    body = re.sub(r"\n{3,}", "\n\n", body)
-    # rejoin hard-wrapped lines inside paragraphs
-    paras = [re.sub(r"\s*\n\s*", " ", p).strip() for p in re.split(r"\n\s*\n", body)]
-    return "\n\n".join(p for p in paras if p)
+        if not st: continue
+        if re.match(r"^(Bitcoin: A Peer-to-Peer Electronic Cash System|Satoshi Nakamoto|satoshin@|www\.bitcoin\.org)$", st): continue   # W2
+        if re.match(r"^\d{1,2}\.\s+[A-Z][A-Za-z -]+$", st) or re.fullmatch(r"\d+", st): continue                                  # W2
+        if st.startswith("Abstract."): st = st[len("Abstract."):].strip()
+        if re.search(r"[{}]|;\s*$", st) or re.match(r"^(#include|double |int |return\b|for \()", st): continue                  # W3
+        words_ = re.findall(r"[A-Za-z]{2,}", st)
+        prev_open = bool(kept) and not ends_sentence(kept[-1][0])
+        completes = prev_open and bool(re.fullmatch(r"[A-Za-z][\w' +-]*[.!?]", st))   # e.g. 'ownership.' or 'gap by -1.' ending a wrapped sentence
+        is_def = bool(re.match(r"^[A-Za-z]\w*\s*[=<>]", st))                                                                    # 'p = probability ...', 'q=0.1'
+        long_prose = len(words_) >= 8 and not is_def                                                                              # prose with an inline formula
+        if is_def or (any(c in MATH_CHARS for c in st) and not long_prose) or (len(words_) < 3 and not completes): continue      # W4
+        if re.search(r"\s\.\.\.$", st): continue                                                                                # W5
+        if len(st.split()) < 6 and not ends_sentence(st) and not prev_open: continue                                            # W5
+        caps = [w for w in st.split() if w[:1].isalpha()]
+        if not prev_open and not ends_sentence(st) and caps and sum(w[0].isupper() for w in caps) >= 0.6 * len(caps): continue  # W5 captions
+        kept.append((st, bool(re.match(r"^\d\)\s", st))))
+    out, in_list = "", False
+    for st, is_item in kept:
+        if not out:
+            out = st
+        elif is_item:
+            out += "\n" + st; in_list = True                                                                                     # W7
+        elif in_list and re.search(r"[.!?]$", out) and st[:1].isupper():
+            out += "\n\n" + st; in_list = False                                                                                 # W7
+        elif out.endswith("-"):
+            out += st                                                                                                             # W6
+        else:
+            out += " " + st
+    return out
 
-IRREG_PP = open(os.path.join(HERE, "02_features.py")).read().split('IRREG_PP = "')[1].split('"')[0]
-PASSIVE_RE = re.compile(r"\b(?:is|are|was|were|be|been|being|get|gets|got|gotten|getting|'s|'re)\s+(?:(?:not|never|also|already|still|just|only|being|always|usually|often|probably|then|all|also)\s+){0,2}(?:[A-Za-z]{3,}ed|" + IRREG_PP + r")\b", re.I)
+import measures as M
 
 def features(docs):
-    """docs: list of prose strings. Returns pooled feature dict."""
-    text = "\n\n".join(docs); masked = T.mask_urls(text)
-    toks = T.words(text); nw = len(toks); cnt = Counter(toks)
-    sents = [s for d in docs for s in T.sentences(d)]; sl = [len(T.words(s)) for s in sents if T.words(s)]
-    def per1k(x): return round(1000 * x / nw, 2) if nw else None
-    dbl = len(re.findall(r"[a-z0-9)\"'][.!?]  [A-Z\"(]", text)); sgl = len(re.findall(r"[a-z0-9)\"'][.!?] [A-Z\"(]", text))
-    contr = len(T.CONTRACTION_RE.findall(masked))
-    full_forms = sum(len(re.findall(r"\b" + f + r"\b", masked)) for f in ["does not", "will not", "can not", "cannot", "I am", "it is", "that is", "there is", "I will", "I have", "you are", "is not", "do not", "would not", "did not", "could not", "should not", "are not", "was not", "has not", "have not", "they are", "we are", "it will"])
-    contr_choice = sum(len(re.findall(r"\b" + f + r"\b", masked)) for f in ["doesn't", "won't", "can't", "I'm", "it's", "that's", "there's", "I'll", "I've", "you're", "isn't", "don't", "wouldn't", "didn't", "couldn't", "shouldn't", "aren't", "wasn't", "hasn't", "haven't", "they're", "we're", "it'll"])
-    quotes_out = len(re.findall(r"\"[^\"\n]{1,40}\"[.,]", masked)); quotes_in = len(re.findall(r"[a-z]{3,}[.!?]\"(?=\s|$)", masked))
-    f = dict(
-        documents=len(docs), words=nw, sentences=len(sl),
-        mean_sentence_len=round(statistics.mean(sl), 2) if sl else None, median_sentence_len=statistics.median(sl) if sl else None,
-        mean_word_len=round(sum(map(len, toks)) / nw, 3) if nw else None,
-        double_space=dbl, single_space=sgl, double_space_share=round(dbl / (dbl + sgl), 3) if dbl + sgl else None,
-        contractions_per1k=per1k(contr), contracted_share=round(contr_choice / (contr_choice + full_forms), 3) if contr_choice + full_forms else None,
-        comma_per1k=per1k(masked.count(",")), semicolon=masked.count(";"), colon_per1k=per1k(len(re.findall(r":(?!\d)", masked))),
-        paren_per1k=per1k(masked.count("(")), question_per1k=per1k(masked.count("?")), exclaim=masked.count("!"), ellipsis=len(re.findall(r"\.{3,}", masked)),
-        em_dash=masked.count("—") + masked.count("–"), double_hyphen=len(re.findall(r"(?<!-)--(?!-)", masked)),
-        dquote_per1k=per1k(masked.count('"')), quote_punct_outside=quotes_out, quote_punct_inside=quotes_in,
-        passive_per_sentence=round(len(PASSIVE_RE.findall(masked)) / len(sl), 3) if sl else None,
-        the_per1k=per1k(cnt["the"]), it_per1k=per1k(cnt["it"]), and_per1k=per1k(cnt["and"]), if_per1k=per1k(cnt["if"]),
-        I_per1k=per1k(sum(cnt[w] for w in ["i", "me", "my", "i'm", "i've", "i'll", "i'd"])), you_per1k=per1k(sum(cnt[w] for w in ["you", "your", "you're", "you've", "you'll", "you'd"])),
-        we_per1k=per1k(sum(cnt[w] for w in ["we", "us", "our", "we're", "we've", "we'll"])),
-        would_per1k=per1k(cnt["would"]), can_per1k=per1k(cnt["can"]), could_per1k=per1k(cnt["could"]), should_per1k=per1k(cnt["should"]), will_per1k=per1k(cnt["will"]), must_per1k=per1k(cnt["must"]), may_might_per1k=per1k(cnt["may"] + cnt["might"]),
-        if_you_openers=len(re.findall(r"(?:^|[.!?]\s+|\n)If you\b", text)), it_would_be=len(re.findall(r"\b[Ii]t would be\b", text)),
-        I_think=len(re.findall(r"\bI think\b", text)), not_sure=len(re.findall(r"\bnot sure\b", text)), probably=cnt["probably"], maybe=cnt["maybe"], obviously=cnt["obviously"], certainly=cnt["certainly"],
-        verdict_openers=len(re.findall(r"(?:^|\n)(?:Right|Yes|No|True|OK|Nope)[,.]", text)),
-        thanks=len(re.findall(r"\b[Tt]hanks\b", text)), sorry=len(re.findall(r"\b[Ss]orry\b", text)), please=len(re.findall(r"\b[Pp]lease\b", text)),
-        list_num_paren=len(re.findall(r"(?m)^\s*\d\)\s", text)), list_num_dot=len(re.findall(r"(?m)^\s*\d\.\s", text)), bullet_dash=len(re.findall(r"(?m)^\s*- ", text)), bullet_star=len(re.findall(r"(?m)^\s*\* ", text)),
-        block_chain=len(re.findall(r"\bblock chain\b", text, re.I)), blockchain=len(re.findall(r"\bblockchain\b", text, re.I)),
-        double_spend_hyphen=len(re.findall(r"\bdouble-spend", text, re.I)), double_spend_open=len(re.findall(r"\bdouble spend", text, re.I)),
-        pow_hyphen=len(re.findall(r"\bproof-of-work\b", text, re.I)), pow_open=len(re.findall(r"\bproof of work\b", text, re.I)),
-        email_hyphen=len(re.findall(r"\be-mail\b", text, re.I)), email_solid=len(re.findall(r"\bemail\b", text, re.I)),
-        a_lot=len(re.findall(r"\ba lot\b", text)), OK=len(re.findall(r"\bOK\b", text)), okay=len(re.findall(r"\bokay\b", text, re.I)),
-        british_tokens=len(re.findall(r"(?<![A-Za-z])(?:optimis\w+|colour\w*|grey|favour\w*|neighbour\w*|defence|labell\w+|fulfil|maths|analys(?:e|ed|ing)|formalis\w+|prioritis\w+|amortis\w+|reorganis\w+|modernis\w+|liberalis\w+|decentralis\w+|centralis\w+|realis\w+|recognis\w+|minimis\w+|organis\w+|behaviour\w*|centre|licence|offence|programme|catalogue|whilst|amongst|learnt|spelt|towards|cheque|tyre|aluminium|judgement|acknowledgement)(?![A-Za-z])", text, re.I)),
-        american_tokens=len(re.findall(r"(?<![A-Za-z])(?:optimiz\w+|color\w*|gray|favor\w*|neighbor\w*|defense|labeled|labeling|fulfill|math|analyz\w+|formaliz\w+|prioritiz\w+|amortiz\w+|reorganiz\w+|moderniz\w+|liberaliz\w+|decentraliz\w+|centraliz\w+|realiz\w+|recogniz\w+|minimiz\w+|organiz\w+|behavior\w*|center|offense|catalog|gotten|toward|aluminum|judgment|acknowledgment)(?![A-Za-z])", text, re.I)),
-        british_examples=" ".join(sorted(set(m.lower() for m in re.findall(r"(?<![A-Za-z])(?:optimis\w+|colour\w*|grey|favour\w*|neighbour\w*|defence|labell\w+|fulfil|maths|analys(?:e|ed|ing)|formalis\w+|prioritis\w+|amortis\w+|reorganis\w+|modernis\w+|liberalis\w+|decentralis\w+|centralis\w+|realis\w+|recognis\w+|minimis\w+|organis\w+|behaviour\w*|centre|licence|programme|catalogue|whilst|amongst|learnt|spelt|towards|cheque|judgement)(?![A-Za-z])", text, re.I)))),
-        american_examples=" ".join(sorted(set(m.lower() for m in re.findall(r"(?<![A-Za-z])(?:optimiz\w+|color\w*|gray|favor\w*|neighbor\w*|defense|labeled|fulfill|math|analyz\w+|formaliz\w+|prioritiz\w+|decentraliz\w+|centraliz\w+|realiz\w+|recogniz\w+|minimiz\w+|organiz\w+|behavior\w*|center|gotten|toward|judgment)(?![A-Za-z])", text, re.I)))),
-        day_first_dates=len(re.findall(r"\b\d{1,2}/\d{1,2}/\d{4}\b|\b\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}\b", text)),
-        percent_attached=len(re.findall(r"\d%", text)), percent_word=len(re.findall(r"\bpercent\b", text)),
-        eg=len(re.findall(r"\be\.g\.", text)), eg_comma=len(re.findall(r"\be\.g\.,", text)), etc_period=len(re.findall(r"\betc\.", text)), etc_bare=len(re.findall(r"\betc\b(?!\.)", text)), vs_bare=len(re.findall(r"\bvs\b(?!\.)", text)), vs_period=len(re.findall(r"\bvs\.", text)), ie=len(re.findall(r"\bi\.e\.", text)),
-    )
-    return f
+    return M.profile(docs)
+
+def shingles(text, k=6):
+    w = T.words(text)
+    return {" ".join(w[i:i + k]) for i in range(len(w) - k + 1)}
+
+def is_shared(snt, other_shingles, other_sents):
+    ws = T.words(snt)
+    if len(ws) < 5:
+        return False
+    if len(ws) < 6:
+        return " ".join(ws) in other_sents
+    sh = shingles(snt)
+    return len(sh & other_shingles) >= 0.5 * len(sh)
+
+def split_shared(docs, other_shingles, other_sents):
+    """Remove SHARED sentences from each document by deleting the sentence and
+    the spaces that follow it from the (URL-masked) original, so the spacing
+    of the remaining boundaries is untouched.
+    Returns (independent_docs, n_shared_sentences, n_shared_words)."""
+    out, ns, nw = [], 0, 0
+    for d in docs:
+        t = T.mask_urls(d)
+        for snt in T.sentences(d):
+            if is_shared(snt, other_shingles, other_sents):
+                pat = r"\s+".join(re.escape(x) for x in snt.split())
+                m = re.search(pat + r"[ \t\u00a0]*", t)
+                if m:
+                    t = t[:m.start()] + t[m.end():]
+                    ns += 1; nw += len(T.words(snt))
+        out.append(t)
+    return out, ns, nw
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--cache", required=True); a = ap.parse_args()
@@ -171,7 +200,8 @@ def main():
     records.append(dict(corpus="whitepaper", file="bitcoin.pdf", title="Bitcoin: A Peer-to-Peer Electronic Cash System", datetime="2008-10-31", words=len(T.words(wp)), quoted_lines_removed=0, text=wp))
     # forum reference: reuse posts_clean.jsonl own prose, core corpus
     recs = [json.loads(l) for l in open(os.path.join(HERE, "..", "data", "posts_clean.jsonl"), encoding="utf-8")]
-    core = [r for r in recs if r["usable_for_prose_stats"] and "disputed_authorship" not in r["flags"] and "repost_of_other_members" not in r["flags"]]
+    core = [r for r in recs if r["usable_for_prose_stats"] and "disputed_authorship" not in r["flags"] and "repost_of_other_members" not in r["flags"]
+            and T.words("\n".join(s_["text"] for s_ in r["segments"] if s_["type"] == "own"))]   # excludes the code-only post_475
     corpora["forum_bitcointalk"] = ["\n".join(s["text"] for s in r["segments"] if s["type"] == "own") for r in core if r["platform"] == "Bitcointalk"]
     corpora["forum_p2pfoundation"] = ["\n".join(s["text"] for s in r["segments"] if s["type"] == "own") for r in core if r["platform"] == "P2P Foundation"]
     # the v0.1 release announcement was sent to all three lists; pool each distinct text once
@@ -183,21 +213,71 @@ def main():
                 continue
             seen.add(key); pooled.append(b)
     corpora["emails_all"] = pooled
+    # source families for the shared-passage test
+    fam_docs = {"paper": [("whitepaper", wp)],
+                "email": [(r["file"], r["text"]) for r in records if r["corpus"] != "whitepaper"],
+                "forum": [(f"post_{r['post_id']}", "\n".join(s_["text"] for s_ in r["segments"] if s_["type"] == "own")) for r in core]}
+    fam_sh = {f: set().union(*[shingles(t) for _, t in ds]) for f, ds in fam_docs.items()}
+    fam_short = {f: {" ".join(T.words(snt)) for _, t in ds for snt in T.sentences(t) if 5 <= len(T.words(snt)) < 6} for f, ds in fam_docs.items()}
+    family_of = {"whitepaper": "paper", "cryptography": "email", "bitcoin-list": "email", "p2p-research": "email", "emails_all": "email",
+                 "forum_p2pfoundation": "forum", "forum_bitcointalk": "forum"}
+    def others(fam):
+        osh = set().union(*[fam_sh[f] for f in fam_sh if f != fam]); ost = set().union(*[fam_short[f] for f in fam_short if f != fam])
+        return osh, ost
+    # per-document overlap table
+    share_rows = []
+    doc_sh = {f: {name: shingles(t) for name, t in ds} for f, ds in fam_docs.items()}
+    for fam, ds in fam_docs.items():
+        osh, ost = others(fam)
+        for name, t in ds:
+            ss = [snt for snt in T.sentences(t) if is_shared(snt, osh, ost)]
+            if not ss:
+                continue
+            best, bj = None, 0.0
+            for f2 in doc_sh:
+                if f2 == fam: continue
+                for n2, sh2 in doc_sh[f2].items():
+                    a_, b_ = doc_sh[fam][name], sh2
+                    if a_ and b_:
+                        j_ = len(a_ & b_) / len(a_ | b_)
+                        if j_ > bj: best, bj = n2, j_
+            share_rows.append(dict(family=fam, document=name, words=len(T.words(t)), shared_sentences=len(ss),
+                                   shared_words=sum(len(T.words(x)) for x in ss), closest_other_document=best, jaccard_6gram=round(bj, 3),
+                                   example=ss[0][:120]))
+    with open(os.path.join(HERE, "..", "data", "agg", "shared_passages.csv"), "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(share_rows[0].keys())); w.writeheader(); w.writerows(share_rows)
     rows = []
     order = ["whitepaper", "cryptography", "bitcoin-list", "p2p-research", "emails_all", "forum_p2pfoundation", "forum_bitcointalk"]
     for k in order:
-        f = features(corpora[k]); f = dict(corpus=k, **f)
-        if k == "whitepaper" and wp_dbl is not None:
-            f["double_space"], f["single_space"], f["double_space_share"] = wp_dbl, wp_sgl, round(wp_dbl / (wp_dbl + wp_sgl), 3)
-        rows.append(f)
+        osh, ost = others(family_of[k])
+        indep, ns, nwd = split_shared(corpora[k], osh, ost)
+        for variant, docs in (("all", corpora[k]), ("independent", indep)):
+            f = features(docs); f = dict(corpus=k, variant=variant, shared_sentences_removed=ns if variant == "independent" else 0,
+                                          shared_words_removed=nwd if variant == "independent" else 0, **f)
+            if k == "whitepaper" and wp_dbl is not None:
+                # spacing is read from the PDF layout text for the whole paper (abstract included in both variants)
+                f["double_space"], f["single_space"], f["double_space_share"] = wp_dbl, wp_sgl, round(wp_dbl / (wp_dbl + wp_sgl), 3)
+            rows.append(f)
+    # e-mails by year, to separate date from register for will/would
+    by_year = {}
+    for r in records:
+        if r["corpus"] != "whitepaper" and r["datetime"]:
+            by_year.setdefault(r["datetime"][:4], []).append(r["text"])
+    for y, docs in sorted(by_year.items()):
+        seen_y, uniq = set(), []
+        for b in docs:
+            key = re.sub(r"\s+", "", b)[:400]
+            if key not in seen_y:
+                seen_y.add(key); uniq.append(b)
+        f = features(uniq); rows.append(dict(corpus=f"emails_{y}", variant="all", shared_sentences_removed=0, shared_words_removed=0, **f))
     out = os.path.join(HERE, "..", "data", "agg", "validation_other_corpora.csv")
     with open(out, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
     with open(os.path.join(HERE, "..", "data", "other_corpora_clean.jsonl"), "w", encoding="utf-8") as fh:
         for r in records: fh.write(json.dumps(r, ensure_ascii=False) + "\n")
     # transposed view
-    keys = [k for k in rows[0] if k != "corpus"]
-    print(f"{'feature':24s}" + "".join(f"{r['corpus'][:16]:>17s}" for r in rows))
+    keys = [k for k in rows[0] if k not in ("corpus", "variant")]
+    print(f"{'feature':24s}" + "".join(f"{(r['corpus'][:11] + '/' + r['variant'][:4]):>17s}" for r in rows))
     for k in keys:
         print(f"{k:24s}" + "".join(f"{str(r[k])[:16]:>17s}" for r in rows))
 
