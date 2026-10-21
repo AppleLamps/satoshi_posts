@@ -47,7 +47,7 @@ Rate features with a sparse denominator need enough material in each sample: 10 
 
 ## Results
 
-Source: `data/agg/control_role_matched.csv`. Each cell is "Satoshi-like writers / eligible writers (share)". Satoshi's percentile among the eligible writers is in brackets.
+Source: `data/agg/control_role_matched.csv`. Each cell is "writers meeting the listed fixed threshold / eligible writers (share)". These thresholds differ from Satoshi's actual values. Satoshi's percentile at his actual value among the eligible writers is in brackets. The CSV's historical `satoshi_like` field names refer to threshold matches, not equality with his measured rate.
 
 ### Rate habits
 
@@ -96,9 +96,9 @@ These remain illustrations, not probabilities. The second set was chosen after s
 
 ## What the role matching shows
 
-* **"If you…" openers are largely a function of answering.** On all text and declarative text, 5–14 writers (8–10%) reach Satoshi's rate. Among answers to questions, 16 of 44 do (36%). The reader-addressed conditional is what answering looks like on this forum, and Satoshi answered more than most. His answer-text rate still sits at the 93rd percentile, so he remains at the high end, but the habit is not distinctive once role is matched.
-* **The "if" rate behaves the same way**, less sharply: 18–25% of writers outside answers and 34% in answers.
-* **The contraction share is the most robust difference.** It stays at 15–19% of eligible writers and the 91st–95th percentile in every comparison, including equal-sized samples and answers only. It is also register-dependent across Satoshi's own writing (white paper 0.24, e-mails 0.75, forum 0.86; validation report), so it describes his informal register, not his writing in general.
+* **"If you…" remains high within answers.** The fixed threshold of 1.5 per 1k is met by 14/136 writers (10%) on all text and 16/44 (36%) among answers. Satoshi's actual answer-sample median is 1.969 per 1k, at the 93.2nd percentile, compared with 2.087 and the 95.6th percentile on all text. Answering changes threshold prevalence; it does not erase his high relative position. These comparisons also change the eligible writers and sample length, so they do not estimate the proportion of his rate caused by role.
+* **The "if" rate also remains high.** The fixed threshold of 9 per 1k is met by 18–25% of writers in A–C and 34% among answers. His actual answer-sample median is 12.55 per 1k, at the 93.2nd percentile. The 15/44 threshold matches do not mean that 15 writers reach his actual rate.
+* **The contraction share is consistently high.** It stays at the 91st–95th percentile in every comparison, including equal-sized samples and answers only; 15–19% of eligible writers meet the fixed 0.80 threshold. It is also register-dependent across Satoshi's own writing (white paper 0.24, e-mails 0.75, forum 0.86; validation report), so it describes his informal register, not his writing in general. Conditional rates remain comparison candidates as well; no held-out evaluation has established a best identifying feature.
 * **Double spacing stays at 26–30% of writers** in every comparison: stable for him, common around him.
 * **Verdict openers become more distinctive among answers** (13 of 44, 86th percentile), which fits answering by stating a verdict first. The denominator is small.
 * **Spelling and hyphenation cannot be role-matched with this collection.** Too few writers use the words often enough. The all-text result (6 of 29 writers with a non-US share ≥ 0.75; 2 of 13 hyphenating "e-mail") is the best available and rests on small numbers.
@@ -109,7 +109,7 @@ These remain illustrations, not probabilities. The second set was chosen after s
 * Role labels are structural approximations. An "answer" may be a correction or a disagreement, and a "question" post may be mostly explanation with one rhetorical question.
 * Writers with as few as 500 words are compared with Satoshi's 47,427; equal-sized samples (B–D) remove the length advantage but not the difference in how stable each writer's estimate is.
 * Unmarked quotations of other people inside a control post count as that writer's text.
-* One forum, one period. The next step is a pre-registered test on unseen writers and threads (`PROTOCOL_NEXT_TEST.md`).
+* One forum, one period. `PROTOCOL_NEXT_TEST.md` records the fixed definitions and the unfinished design for a future test. It does not yet specify a runnable, fully preregistered evaluation.
 
 ## Reproduce
 
